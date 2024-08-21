@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel to TXT Converter</title>
+    <!-- Stil dosyasını dahil edin -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Klip Info Oluşturucu</h1>
+
+        <h2>Metadata Dosyasını Yükle!</h2>
+        <input type="file" id="fileInput" accept=".xlsx, .xls" />
+
+        <div class="checkbox-group">
+            <label>
+                <input type="checkbox" id="isSingleCheckbox" checked />
+                SINGLE
+            </label>
+        </div>
+
+        <div class="checkbox-group">
+            <label>
+                <input type="checkbox" id="is4KCheckbox" />
+                4K
+            </label>
+        </div>
+
+        <div class="checkbox-group">
+            <label>
+                <input type="checkbox" id="hasLyricsCheckbox" />
+                SÖZLER
+            </label>
+        </div>
+
+        <button id="processButton">Dosyayı İndir!</button>
+
+        <div id="output"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
