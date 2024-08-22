@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel to TXT Converter</title>
+    <!-- Stil dosyasını dahil edin -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Metadata Dosyasını Yükle!</h2>
+        <label for="fileInput" class="custom-file-upload">
+            Dosya Seç
+        </label>
+        <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" />
+
+        <h2>Satır İndeksi Seç</h2>
+        <div id="rowIndexControl" class="inline-group">
+            <button id="decreaseRowIndex">-</button>
+            <button id="increaseRowIndex">+</button>
+            <span id="rowIndexDisplay">2</span>
+        </div>
+
+        <div class="inline-group">
+            <label><input type="checkbox" id="isSingleCheckbox" checked> Single</label>
+            <label><input type="checkbox" id="is4KCheckbox"> 4K</label>
+            <label><input type="checkbox" id="hasLyricsCheckbox"> Lyrics Available</label>
+        </div>
+
+        <select id="fallbackGenreSelect" class="dropdown">
+            <option value="">-- Seçiniz --</option>
+            <option value="Pop">Pop</option>
+            <option value="Halk Müziği">Halk Müziği</option>
+            <option value="Arabesk">Arabesk</option>
+            <option value="Rap">Rap</option>
+            <option value="Rock">Rock</option>
+            <option value="Alternatif & Rock">Alternatif & Rock</option>
+            <option value="Alternatif">Alternatif</option>
+            <option value="Ankara Havası">Ankara Havası</option>
+            <option value="Oyun Havaları">Oyun Havaları</option>
+            <option value="Roman Havası">Roman Havası</option>
+            <option value="Karadeniz">Karadeniz</option>
+            <option value="Özgün">Özgün</option>
+            <option value="Sufi - İlahi">Sufi - İlahi</option>
+            <option value="Yabancı Şarkılar">Yabancı Şarkılar</option>
+            <option value="Akustik">Akustik</option>
+            <option value="Dance">Dance</option>
+            <option value="Türk Sanat Müziği">Türk Sanat Müziği</option>
+            <option value="Enstrümantal">Enstrümantal</option>
+            <option value="Elektronik">Elektronik</option>
+            <option value="Düet Şarkılar">Düet Şarkılar</option>
+            <option value="Film Müzikleri">Film Müzikleri</option>
+            <option value="Klasik Müzik">Klasik Müzik</option>
+            <option value="Remix">Remix</option>
+            <option value="Slow">Slow</option>
+            <option value="Caz">Caz</option>
+        </select>
+        <button id="additionalButton">Ön İzleme</button>
+        <button id="processButton">Dosyayı İndir!</button>
+
+        <div id="output"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
