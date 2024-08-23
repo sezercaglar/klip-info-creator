@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+    <link rel="icon" href="https://drive.google.com/uc?export=view&id=1sdFvPXZ6RUUhlRJYV1IDMx2_3ckSnB3H" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel to TXT Converter</title>
+    <title>Klip Info Oluştur!</title>
     <!-- Stil dosyasını dahil edin -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,7 +16,7 @@
         </label>
         <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" />
 
-        <h2>Satır İndeksi Seç</h2>
+        <h2>Verilerin Çekileceği Satır</h2>
         <div id="rowIndexControl" class="inline-group">
             <button id="decreaseRowIndex">-</button>
             <button id="increaseRowIndex">+</button>
@@ -25,7 +26,7 @@
         <div class="inline-group">
             <label><input type="checkbox" id="isSingleCheckbox" checked> Single</label>
             <label><input type="checkbox" id="is4KCheckbox"> 4K</label>
-            <label><input type="checkbox" id="hasLyricsCheckbox"> Lyrics Available</label>
+            <label><input type="checkbox" id="hasLyricsCheckbox"> Sözler</label>
         </div>
 
         <select id="fallbackGenreSelect" class="dropdown">
