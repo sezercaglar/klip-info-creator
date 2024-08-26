@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <link rel="icon" href="https://drive.google.com/uc?export=view&id=1rTHY6Piyxr9JQAz69IROGVXUHuvPQt7q" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klip Info Oluştur!</title>
-    <!-- Stil dosyasını dahil edin -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h2>Metadata Dosyasını Yükle!</h2>
+        <h3>Metadata Dosyasını Yükle!</h3>
         <label for="fileInput" class="custom-file-upload">
             Dosya Seç
         </label>
         <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" />
 
-        <h2>Verilerin Çekileceği Satır</h2>
+        <h3>Veriler Hangi satırda?</h3>
         <div id="rowIndexControl" class="inline-group">
-            <button id="decreaseRowIndex">-</button>
-            <button id="increaseRowIndex">+</button>
+            <button id="decreaseRowIndex"> - </button>
+
+            <button id="increaseRowIndex"> + </button>
             <span id="rowIndexDisplay">2</span>
         </div>
 
         <div class="inline-group">
             <label><input type="checkbox" id="isSingleCheckbox" checked> Single</label>
             <label><input type="checkbox" id="is4KCheckbox"> 4K</label>
-            <label><input type="checkbox" id="hasLyricsCheckbox"> Sözler</label>
+            <label><input type="checkbox" id="hasLyricsCheckbox"> Lyrics Available</label>
         </div>
 
         <select id="fallbackGenreSelect" class="dropdown">
@@ -57,10 +56,42 @@
             <option value="Slow">Slow</option>
             <option value="Caz">Caz</option>
         </select>
-        <button id="additionalButton">Ön İzleme</button>
-        <button id="processButton">Dosyayı İndir!</button>
+
+        <div class="button-group">
+            <button id="additionalButton">Ön İzleme</button>
+            <button class="tab-button" data-tab="tableTab">Tablo Görünümü</button>
+            <button id="processButton">Dosyayı İndir!</button>
+        </div>
 
         <div id="output"></div>
+    </div>
+    <div id="tableTab" class="tab-content" style="display: none;">
+        <div id="previewPanel">
+            <table id="previewTable">
+                <thead>
+                    <tr>
+                        <th>Eser Adı</th>
+                        <th>Sanatçı</th>
+                        <th>Albüm Adı</th>
+                        <th>Label</th>
+                        <th>ISRC</th>
+                        <th>UPC</th>
+                        <th>Tür</th>
+                        <th>Çıkış Tarihi</th>
+                        <th>Yazar</th>
+                        <th>Besteci</th>
+                        <th>Düzenleme</th>
+                        <th>Yönetmen</th>
+                        <th>Yayın Türü</th>
+                        <th>Lyrics</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Satırlar buraya eklenecek -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
