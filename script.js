@@ -1,1 +1,780 @@
-var _0x1542c2=_0x2e03;(function(_0x5dbfa2,_0x1b058a){var _0x3d5086=_0x2e03,_0x3ff631=_0x5dbfa2();while(!![]){try{var _0x4372c2=parseInt(_0x3d5086(0xe6))/0x1*(-parseInt(_0x3d5086(0xe4))/0x2)+-parseInt(_0x3d5086(0xc1))/0x3+-parseInt(_0x3d5086(0xed))/0x4*(parseInt(_0x3d5086(0xb0))/0x5)+parseInt(_0x3d5086(0x98))/0x6+-parseInt(_0x3d5086(0xe1))/0x7*(parseInt(_0x3d5086(0x9b))/0x8)+-parseInt(_0x3d5086(0xdc))/0x9+-parseInt(_0x3d5086(0xfb))/0xa*(-parseInt(_0x3d5086(0x96))/0xb);if(_0x4372c2===_0x1b058a)break;else _0x3ff631['push'](_0x3ff631['shift']());}catch(_0x10aaa8){_0x3ff631['push'](_0x3ff631['shift']());}}}(_0x3e01,0x6da5f));const API_URL=_0x1542c2(0xc4);let etiketlerData=[],labelsData=[],fallbackGenre='',rowIndex=0x2;document['addEventListener'](_0x1542c2(0xf2),function(){var _0x53f9f4=_0x1542c2;const _0x37a312=document[_0x53f9f4(0xae)]('fallbackGenreSelect');_0x37a312[_0x53f9f4(0xf7)](_0x53f9f4(0xe8),function(){var _0x269a9b=_0x53f9f4;fallbackGenre=_0x37a312[_0x269a9b(0xd3)],console[_0x269a9b(0xf9)]('Seçilen\x20Fallback\x20Genre:',fallbackGenre);}),fetch(API_URL)[_0x53f9f4(0x113)](_0x32cdd2=>_0x32cdd2['json']())['then'](_0x44cc1f=>{var _0x160b41=_0x53f9f4;etiketlerData=_0x44cc1f['etiketler'],labelsData=_0x44cc1f[_0x160b41(0x9e)],console[_0x160b41(0xf9)]('Hazır!');})[_0x53f9f4(0xce)](_0x197ad7=>console[_0x53f9f4(0xb1)](_0x53f9f4(0xc0),_0x197ad7));}),document[_0x1542c2(0xae)]('increaseRowIndex')['addEventListener'](_0x1542c2(0x117),function(){var _0x6385ef=_0x1542c2;rowIndex++,document['getElementById'](_0x6385ef(0xc3))[_0x6385ef(0xb8)]=rowIndex;}),document[_0x1542c2(0xae)](_0x1542c2(0xeb))[_0x1542c2(0xf7)](_0x1542c2(0x117),function(){var _0x28319e=_0x1542c2;rowIndex>0x1&&(rowIndex--,document['getElementById'](_0x28319e(0xc3))['textContent']=rowIndex);});function createOutputText(_0x12e511){var _0x590b28=_0x1542c2;const _0x1f5f98=rowIndex;var _0x566343=_0x12e511['A'+_0x1f5f98]?_0x12e511['A'+_0x1f5f98]['v']:'',_0x4035a0=_0x12e511['B'+_0x1f5f98]?_0x12e511['B'+_0x1f5f98]['v']:'',_0x8a1285=_0x12e511['C'+_0x1f5f98]?_0x12e511['C'+_0x1f5f98]['v']:'',_0x13709b=_0x12e511['D'+_0x1f5f98]?_0x12e511['D'+_0x1f5f98]['v']:'',_0x3644bb=_0x12e511['E'+_0x1f5f98]?_0x12e511['E'+_0x1f5f98]['v']:'',_0x5a983e=_0x12e511['F'+_0x1f5f98]?_0x12e511['F'+_0x1f5f98]['v']:'',_0x1ded7f=_0x12e511['G'+_0x1f5f98]?_0x12e511['G'+_0x1f5f98]['v']:'',_0xbc48c2=_0x12e511['H'+_0x1f5f98]?_0x12e511['H'+_0x1f5f98]['v']:'',_0x230638=convertValueToString(_0xbc48c2),_0x5dbb49=_0x12e511['I'+_0x1f5f98]?_0x12e511['I'+_0x1f5f98]['v']:'',_0x5ee953=_0x12e511['J'+_0x1f5f98]?_0x12e511['J'+_0x1f5f98]['v']:'',_0xa38115=_0x12e511['K'+_0x1f5f98]?_0x12e511['K'+_0x1f5f98]['v']:'',_0x5b89ab=_0x12e511['L'+_0x1f5f98]?_0x12e511['L'+_0x1f5f98]['v']:'',_0xcd0884=_0x12e511['M'+_0x1f5f98]?_0x12e511['M'+_0x1f5f98]['v']:'',_0x525f4d=_0x12e511['N'+_0x1f5f98]?_0x12e511['N'+_0x1f5f98]['v']:'',_0x21c6f2=_0x12e511['O'+_0x1f5f98]?_0x12e511['O'+_0x1f5f98]['v']:'',_0x18b0b7=_0x12e511['P'+_0x1f5f98]?_0x12e511['P'+_0x1f5f98]['v']:'',_0x30abfd=formatTrackTitle(_0x566343),_0x2ad68e=formatArtist(_0x4035a0),_0x5914fc=lookupGenreTags(_0x1ded7f),_0x3ac084=lookupLabelTitle(_0x13709b),_0x44007f=formatISRC(_0x3644bb),_0x39faa3=_0x2ad68e[_0x590b28(0xa7)]()['concat']('\x20-\x20',_0x566343[_0x590b28(0xa7)]()),_0x130c19=replaceFeatAndAnd(_0x4035a0),_0x4b8b1e=','+_0x130c19[_0x590b28(0xbd)](',',_0x566343),_0x55908e=removeTurkishCharsAndSpaces(_0x2ad68e)[_0x590b28(0xbd)]('-',removeTurkishCharsAndSpaces(_0x30abfd)),_0xd42b4f=addPossessiveSuffix(_0x2ad68e),_0x1daf3d=generateDescription(_0xd42b4f,_0x13709b['trim'](),_0x8a1285[_0x590b28(0xa7)](),_0x566343[_0x590b28(0xa7)]()),_0x381639=generateLyricsText(_0x566343),_0x1e7a14=generateKunye(_0x5dbb49,_0x5ee953,_0xa38115,_0x5b89ab,_0x381639),_0x5be461=generateLinks(_0x1ded7f),_0x574a33=removeTurkishChars(_0x2ad68e),_0x1e54d5=removeTurkishChars(_0x30abfd),_0x2eda49=getMergedTags(_0x1ded7f,fallbackGenre)[_0x590b28(0xbd)](_0x39faa3,',',_0x2ad68e,',',_0x566343,',',_0x574a33,',',_0x1e54d5,',',_0x574a33,_0x590b28(0xff),_0x1e54d5),_0x3c6272=generateHashtags(_0x4035a0,_0x566343),_0xa65b2c=generateSearchUrls(_0x2ad68e,_0x566343),_0x1f9317=socialMediaLinks(),_0x10b1c0=_0x590b28(0x10b)+_0x3ac084+_0x590b28(0xca)+_0x1ded7f+_0x590b28(0x10f)+_0x44007f+_0x590b28(0xc9)+_0x5a983e+'\x0a\x0a'+_0x4b8b1e+'\x0a'+_0x55908e+'\x0a\x0a'+_0x2ad68e+'\x0a'+_0x566343+_0x590b28(0xa8)+_0x39faa3+_0x590b28(0xd2)+_0x230638+_0x590b28(0xd0)+_0x1daf3d+'\x0a\x0a'+_0x1e7a14+'\x0a\x0a*Facebook*\x20'+_0x1f9317[_0x590b28(0xa9)]+_0x590b28(0xf6)+_0x1f9317[_0x590b28(0xb7)]+'\x0a*Twitter*\x20'+_0x1f9317['twitterUrl']+_0x590b28(0xc7)+_0x1f9317['youtubeUrl']+_0x590b28(0xcd)+_0x1f9317[_0x590b28(0xbc)]+'\x0a\x0a'+_0x5be461+'\x0a\x0a'+_0x3c6272+'\x0a\x0a'+_0x2eda49+'\x0a\x0a'+_0xa65b2c[_0x590b28(0xab)]+'\x0a'+_0xa65b2c[_0x590b28(0x116)]+'\x0a'+_0xa65b2c[_0x590b28(0xdb)];return _0x10b1c0;}document[_0x1542c2(0xae)](_0x1542c2(0xc6))[_0x1542c2(0xf7)](_0x1542c2(0x117),function(){var _0x5dfdf5=_0x1542c2,_0x213bcd=document[_0x5dfdf5(0xae)](_0x5dfdf5(0xb4)),_0x5b211a=_0x213bcd[_0x5dfdf5(0xc5)][0x0];if(!_0x5b211a){alert(_0x5dfdf5(0x108));return;}var _0x50792c=new FileReader();_0x50792c[_0x5dfdf5(0x106)]=function(_0x2f2625){var _0x4b02bb=_0x5dfdf5,_0x41b326=new Uint8Array(_0x2f2625[_0x4b02bb(0xd4)][_0x4b02bb(0xe0)]),_0x230825=XLSX[_0x4b02bb(0xa4)](_0x41b326,{'type':_0x4b02bb(0xda)}),_0x364feb=_0x230825['SheetNames'][0x0],_0x5b6106=_0x230825['Sheets'][_0x364feb],_0x15f5bf=createOutputText(_0x5b6106),_0x88ac68=document['getElementById'](_0x4b02bb(0x93));_0x88ac68[_0x4b02bb(0xe9)]=_0x15f5bf,previewMetadata(_0x5b6106),switchTab(_0x4b02bb(0x93));},_0x50792c[_0x5dfdf5(0xe3)](_0x5b211a);}),document['querySelectorAll'](_0x1542c2(0xa6))[_0x1542c2(0xcf)](_0x5a2ab=>{var _0x4649ff=_0x1542c2;_0x5a2ab[_0x4649ff(0xf7)](_0x4649ff(0x117),function(){var _0x5c6844=_0x4649ff;const _0x1a1415=this[_0x5c6844(0x100)][_0x5c6844(0x9f)];switchTab(_0x1a1415);});}),document[_0x1542c2(0xae)](_0x1542c2(0xef))['addEventListener'](_0x1542c2(0x117),function(){var _0x8c1894=_0x1542c2,_0x3bfdbb=document['getElementById']('fileInput'),_0x9934a5=_0x3bfdbb[_0x8c1894(0xc5)][0x0];if(!_0x9934a5){alert(_0x8c1894(0x108));return;}var _0x1c7476=new FileReader();_0x1c7476[_0x8c1894(0x106)]=function(_0x543a97){var _0x78c10=_0x8c1894,_0x1026d6=new Uint8Array(_0x543a97[_0x78c10(0xd4)]['result']),_0x7009a4=XLSX[_0x78c10(0xa4)](_0x1026d6,{'type':_0x78c10(0xda)}),_0x527f4a=_0x7009a4[_0x78c10(0xad)][0x0],_0x398097=_0x7009a4[_0x78c10(0x107)][_0x527f4a],_0x139e2c=createOutputText(_0x398097),_0x8373d1=new Blob([_0x139e2c],{'type':_0x78c10(0x110)}),_0x6938fc=window[_0x78c10(0xe2)][_0x78c10(0xee)](_0x8373d1),_0x4d9c76=document[_0x78c10(0xe5)]('a');_0x4d9c76[_0x78c10(0x9d)]=_0x6938fc,_0x4d9c76['download']='klipInfo.txt',document[_0x78c10(0xbe)][_0x78c10(0xfa)](_0x4d9c76),_0x4d9c76[_0x78c10(0x117)](),document[_0x78c10(0xbe)][_0x78c10(0x99)](_0x4d9c76),window[_0x78c10(0xe2)]['revokeObjectURL'](_0x6938fc);},_0x1c7476[_0x8c1894(0xe3)](_0x9934a5);});function formatTrackTitle(_0x33f7d7){var _0x20bc2e=_0x1542c2;const _0x1d5fe4={'i':'İ','ş':'Ş','ğ':'Ğ','ü':'Ü','ö':'Ö','ç':'Ç','ı':'I','İ':'i','Ş':'ş','Ğ':'ğ','Ü':'ü','Ö':'ö','Ç':'ç'};return _0x33f7d7=_0x33f7d7[_0x20bc2e(0xa7)](),_0x33f7d7=_0x33f7d7[_0x20bc2e(0x92)]('\x20')[_0x20bc2e(0xc8)](function(_0x1d7a11){var _0x556b8a=_0x20bc2e;if(_0x1d7a11['length']>0x0){let _0x4f573c=_0x1d7a11[_0x556b8a(0xc2)](0x0),_0x46ef79=_0x1d7a11['substring'](0x1);return _0x4f573c=_0x1d5fe4[_0x4f573c]!==undefined?_0x1d5fe4[_0x4f573c][_0x556b8a(0x97)]():_0x4f573c['toUpperCase'](),_0x46ef79=_0x46ef79[_0x556b8a(0xf4)]()[_0x556b8a(0x92)]('')['map'](_0x20ee82=>{var _0x551975=_0x556b8a;return _0x1d5fe4[_0x20ee82]!==undefined?_0x1d5fe4[_0x20ee82][_0x551975(0xf4)]():_0x20ee82;})[_0x556b8a(0x102)](''),_0x4f573c+_0x46ef79;}else return _0x1d7a11;})[_0x20bc2e(0x102)]('\x20'),_0x33f7d7;}function lookupGenreTags(_0x2b2a6c){var _0x4e9c7d=_0x1542c2;const _0xbfbdd7=etiketlerData[_0x4e9c7d(0xcb)](_0x40ea9a=>_0x40ea9a[_0x4e9c7d(0xde)]['toLowerCase']()===_0x2b2a6c[_0x4e9c7d(0xf4)]());return _0xbfbdd7?_0xbfbdd7['merge-tags']:_0x4e9c7d(0xd8);}function lookupLabelTitle(_0x360b11){var _0x35b8f1=_0x1542c2;const _0x2ec179=labelsData[_0x35b8f1(0xcb)](_0xbba692=>_0xbba692[_0x35b8f1(0x111)][_0x35b8f1(0xf4)]()===_0x360b11[_0x35b8f1(0xf4)]());return _0x2ec179?_0x2ec179[_0x35b8f1(0xe7)]:_0x35b8f1(0xba);}function searchByLabel(_0x398d1b){var _0x5e467e=_0x1542c2;const _0x3b63b7=labelsData[_0x5e467e(0xb3)](_0x58f79a=>_0x58f79a[_0x5e467e(0xe7)][_0x5e467e(0xf4)]()[_0x5e467e(0x9c)](_0x398d1b[_0x5e467e(0xf4)]()));return _0x3b63b7[_0x5e467e(0xf8)]>0x0?_0x3b63b7:_0x5e467e(0xba);}function formatISRC(_0x498132){var _0x49508c=_0x1542c2;_0x498132=_0x498132[_0x49508c(0xf3)](/-/g,'');var _0x1d5cee=/^[A-Z]{2}[A-Z0-9]{3}\d{2}\d{5}$/[_0x49508c(0xfd)](_0x498132);if(!_0x1d5cee)return _0x49508c(0x10d);return _0x498132;}function _0x3e01(){var _0x575731=['createElement','1GHXNGb','labelTitle','change','innerHTML','padStart','decreaseRowIndex','\x22\x20şarkı\x20sözleri\x20ile','345512mwAmYh','createObjectURL','processButton','</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>','_blank','DOMContentLoaded','replace','toLowerCase','\x22\x20albümünde\x20yer\x20alan\x20\x22','\x0a*Instagram*\x20','addEventListener','length','log','appendChild','30ZkmTaS','\x27un','test','\x27nun','\x20-\x20','dataset','hasLyricsCheckbox','join','\x20feat.\x20','https://www.youtube.com/@netdmuzik','</td>\x20\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>','onload','Sheets','Please\x20upload\x20an\x20Excel\x20file\x20first.','merge-tags','searchISRCButton','Label:\x20','\x27nün','Invalid\x20ISRC\x20format','display','\x0aUsage\x20Policy:\x0a\x0aISRC:\x20','text/plain','descriptionTitle','ft.','then','netd\x20müzik\x27te\x20bu\x20ay\x20http://bit.ly/nd-eniyi\x0aYeni\x20Hit\x20Şarkılar\x20http://bit.ly/nd-yenihit','number','youtubeUrlArtist','click','\x27ün','split','output','\x22\x20isimli\x20şarkısı,\x20video\x20klibiyle\x20netd\x20müzik\x27te.','checked','7066389QjpAYK','toUpperCase','5209740pRZRMh','removeChild','aeıioöuü','424TkwcYp','includes','href','labels','tab','isSingleCheckbox','\x27nin','Lütfen\x20bir\x20Excel\x20dosyası\x20yükleyin.','https://www.youtube.com/results?search_query=','read','style','.tab-button','trim','\x0a\x0aSelamlar,\x0a\x0a','facebookUrl','slice','youtubeUrlCombined','feat.','SheetNames','getElementById','Yönetmen:\x20','35MGjZxG','error','feat','filter','fileInput','\x27ın','Tab\x20with\x20ID\x20\x22','instagramUrl','textContent','previewTable','Label\x20bulunamadı','</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20','tiktokUrl','concat','body','https://instagram.com/netdmuzik','Veriler\x20yüklenirken\x20hata\x20oluştu:','2379924WIQtUY','charAt','rowIndexDisplay','https://script.google.com/macros/s/AKfycbwkMVhA2OfLmscXrz7ITqSC14_8Ty6KTwis8lmIYsSJFlCKEDThd4EHxt2g7QdUQcfj/exec','files','additionalButton','\x0a*Youtube*\x20','map','\x0aUPC:\x20','\x0a\x0aGenre:\x20','find','https://www.google.com/search?q=','\x0a*Tiktok*\x20','catch','forEach','\x0a\x0aYouTube:\x20\x0a\x0aSevgiler.\x0a\x0aİzlesene:\x20\x0a\x0aNetd:\x20http://www.netd.com\x0a\x0a------------\x0a','getDate','\x0aYayın\x20Tarihi:\x20','value','target','\x22\x20isimli\x20tekli\x20çalışması,\x204K\x20çözünürlüğünde\x20video\x20klibiyle\x20netd\x20müzik\x27te.','\x20etiketiyle\x20yayınlanan\x20\x22','getTime','Etiket\x20bulunamadı','\x27nın','array','googleUrl','206271qQStlN','!rows','genre','\x22\x20isimli\x20tekli\x20çalışması,\x20video\x20klibiyle\x20netd\x20müzik\x27te.','result','73738nzyZtJ','URL','readAsArrayBuffer','734386HDbHMZ'];_0x3e01=function(){return _0x575731;};return _0x3e01();}function replaceFeatAndAnd(_0x3bed32){return _0x3bed32['replace'](/\b(feat\.?|&|and)\b/gi,',');}function removeTurkishCharsAndSpaces(_0x2ca39c){var _0x58b769=_0x1542c2;const _0x1a66e5={'ç':'c','Ç':'C','ğ':'g','Ğ':'G','ı':'i','I':'I','ö':'o','Ö':'O','ş':'s','Ş':'S','ü':'u','Ü':'U'};return _0x2ca39c=_0x2ca39c[_0x58b769(0xf3)](/[çğıöşüÇĞIÖŞÜ]/g,function(_0x33df15){return _0x1a66e5[_0x33df15];}),_0x2ca39c=_0x2ca39c[_0x58b769(0xf3)](/\s+/g,''),_0x2ca39c;}function formatArtist(_0x2773a0){var _0x5dd4c2=_0x1542c2;return _0x2773a0=_0x2773a0[_0x5dd4c2(0xa7)](),_0x2773a0=_0x2773a0[_0x5dd4c2(0xf3)](/\s(ft\.?|feat\.?|FEAT\.?|FT\.?)\s/gi,_0x5dd4c2(0x103)),_0x2773a0=_0x2773a0[_0x5dd4c2(0xa7)](),_0x2773a0;}function addPossessiveSuffix(_0x499a87){var _0x2d42e8=_0x1542c2;const _0x2f5423=_0x499a87[_0x2d42e8(0xaa)](-0x1)[_0x2d42e8(0xf4)](),_0x3f5c04=_0x2d42e8(0x9a);let _0x1beb46='';for(let _0x54b7a9=_0x499a87['length']-0x1;_0x54b7a9>=0x0;_0x54b7a9--){if(_0x3f5c04[_0x2d42e8(0x9c)](_0x499a87[_0x54b7a9]['toLowerCase']())){_0x1beb46=_0x499a87[_0x54b7a9][_0x2d42e8(0xf4)]();break;}}if(_0x3f5c04[_0x2d42e8(0x9c)](_0x2f5423)){if(_0x2f5423==='e'||_0x2f5423==='i')return _0x499a87+_0x2d42e8(0xa1);else{if(_0x2f5423==='a'||_0x2f5423==='ı')return _0x499a87+_0x2d42e8(0xd9);else{if(_0x2f5423==='o'||_0x2f5423==='u')return _0x499a87+_0x2d42e8(0xfe);else{if(_0x2f5423==='ö'||_0x2f5423==='ü')return _0x499a87+_0x2d42e8(0x10c);}}}}else{if(_0x1beb46==='o'||_0x1beb46==='u')return _0x499a87+_0x2d42e8(0xfc);else{if(_0x1beb46==='a'||_0x1beb46==='ı')return _0x499a87+_0x2d42e8(0xb5);else{if(_0x1beb46==='e'||_0x1beb46==='i'||_0x1beb46==='ö')return _0x499a87+'\x27in';else{if(_0x1beb46==='ü')return _0x499a87+_0x2d42e8(0x91);}}}}return _0x499a87+'\x27nin';}function generateDescription(_0x4e9959,_0x231fe4,_0x4bd53b,_0x2b63f1){var _0x1c646b=_0x1542c2,_0x224990=document[_0x1c646b(0xae)](_0x1c646b(0xa0))[_0x1c646b(0x95)],_0x39f2fb=document[_0x1c646b(0xae)]('is4KCheckbox')['checked'];return!_0x224990?!_0x39f2fb?_0x4e9959+',\x20'+_0x231fe4+_0x1c646b(0xd6)+_0x4bd53b+_0x1c646b(0xf5)+_0x2b63f1+_0x1c646b(0x94):_0x4e9959+',\x20'+_0x231fe4+'\x20etiketiyle\x20yayınlanan\x20\x22'+_0x4bd53b+_0x1c646b(0xf5)+_0x2b63f1+'\x22\x20isimli\x20şarkısı,\x204K\x20çözünürlüğünde\x20video\x20klibiyle\x20netd\x20müzik\x27te.':_0x39f2fb?_0x4e9959+',\x20'+_0x231fe4+_0x1c646b(0xd6)+_0x2b63f1+_0x1c646b(0xd5):_0x4e9959+',\x20'+_0x231fe4+_0x1c646b(0xd6)+_0x2b63f1+_0x1c646b(0xdf);}function generateKunye(_0x50cdb4,_0x565486,_0x34cc92,_0x70f303,_0x40f4d5){var _0x5996dd=_0x1542c2;let _0xf6d7b2='';return _0x50cdb4&&_0x565486&&_0x50cdb4===_0x565486?_0xf6d7b2+='Söz\x20&\x20Müzik:\x20'+_0x50cdb4+'\x0a':(_0x50cdb4&&(_0xf6d7b2+='Söz:\x20'+_0x50cdb4+'\x0a'),_0x565486&&(_0xf6d7b2+='Müzik:\x20'+_0x565486+'\x0a')),_0x34cc92&&(_0xf6d7b2+='Düzenleme:\x20'+_0x34cc92+'\x0a'),_0x70f303&&(_0xf6d7b2+=_0x5996dd(0xaf)+_0x70f303+'\x0a'),_0x40f4d5&&(_0xf6d7b2+='\x0a'+_0x40f4d5),_0xf6d7b2[_0x5996dd(0xa7)]();}function generateLyricsText(_0x1ab71a){var _0x1e508a=_0x1542c2,_0x483a0a=document[_0x1e508a(0xae)](_0x1e508a(0x101))[_0x1e508a(0x95)];return _0x483a0a?'\x22'+_0x1ab71a+_0x1e508a(0xec):'';}function generateLinks(_0x1b0ce3){var _0x3d0dcb=_0x1542c2;let _0x349173=_0x3d0dcb(0x114);return _0x349173;}function _0x2e03(_0x16cef2,_0x42a53f){var _0x3e010b=_0x3e01();return _0x2e03=function(_0x2e0358,_0x1152d1){_0x2e0358=_0x2e0358-0x91;var _0x2012c6=_0x3e010b[_0x2e0358];return _0x2012c6;},_0x2e03(_0x16cef2,_0x42a53f);}function getMergedTags(_0x10623a,_0x157b0f){var _0x1aed0c=_0x1542c2;let _0x4103ea=etiketlerData['find'](_0x59719c=>_0x59719c[_0x1aed0c(0xde)][_0x1aed0c(0xf4)]()===_0x10623a[_0x1aed0c(0xf4)]()&&_0x59719c['merge-tags']);return!_0x4103ea&&_0x157b0f&&(_0x4103ea=etiketlerData[_0x1aed0c(0xcb)](_0x101514=>_0x101514[_0x1aed0c(0xde)]['toLowerCase']()===_0x157b0f[_0x1aed0c(0xf4)]()&&_0x101514[_0x1aed0c(0x109)])),_0x4103ea&&_0x4103ea[_0x1aed0c(0x109)]?_0x4103ea[_0x1aed0c(0x109)]:'Etiket\x20bulunamadı';}function removeTurkishChars(_0x31fad3){const _0x5c1605={'ç':'c','Ç':'C','ğ':'g','Ğ':'G','ı':'i','I':'I','ö':'o','Ö':'O','ş':'s','Ş':'S','ü':'u','Ü':'U'};return _0x31fad3=_0x31fad3['replace'](/[çğıöşüÇĞIÖŞÜ]/g,function(_0x6b66c6){return _0x5c1605[_0x6b66c6];}),_0x31fad3;}function generateHashtags(_0x29111a,_0x4fa0b6){var _0x3f4b03=_0x1542c2;const _0x97bc36=[_0x3f4b03(0xac),_0x3f4b03(0xb2),'&','X',_0x3f4b03(0x112),'ft'];function _0x539eff(_0x47a6ae){var _0x47e2bd=_0x3f4b03;return _0x47a6ae[_0x47e2bd(0xf3)](/[^a-zA-Z0-9çğıöşüÇĞİÖŞÜ]/g,'')[_0x47e2bd(0xa7)]();}let _0x572427=_0x29111a[_0x3f4b03(0x92)](new RegExp('('+_0x97bc36[_0x3f4b03(0x102)]('|')+')','gi'))[_0x3f4b03(0xb3)](Boolean),_0x3b9c96=_0x572427[_0x3f4b03(0xb3)](_0x17e333=>!_0x97bc36['includes'](_0x17e333['trim']()[_0x3f4b03(0xf4)]())),_0x345b2e=_0x3b9c96['map'](_0x16c96a=>'#'+_0x539eff(_0x16c96a))['join']('\x20'),_0x368fc3='#'+_0x3b9c96['map'](_0x4e5326=>_0x539eff(_0x4e5326))['join'](''),_0x466bf9='#'+_0x539eff(_0x4fa0b6);return _0x345b2e+'\x20'+_0x466bf9+'\x20'+_0x368fc3+_0x466bf9;}function generateSearchUrls(_0x8f86db,_0x1f8148){var _0x22967f=_0x1542c2;const _0x468778=_0x22967f(0xcc),_0x540bd8=_0x22967f(0xa3),_0x215269=encodeURIComponent(_0x8f86db[_0x22967f(0xa7)]()),_0x59fdd8=encodeURIComponent(_0x1f8148[_0x22967f(0xa7)]()),_0x474c68=encodeURIComponent((_0x8f86db+'\x20-\x20'+_0x1f8148)[_0x22967f(0xa7)]()),_0x318a15=''+_0x468778+_0x474c68,_0x3953d7=''+_0x540bd8+_0x215269,_0xb3f6a2=''+_0x540bd8+_0x474c68;return{'googleUrl':_0x318a15,'youtubeUrlArtist':_0x3953d7,'youtubeUrlCombined':_0xb3f6a2};}function previewMetadata(_0x509b53){var _0x4a6d80=_0x1542c2;const _0x21bbca=document['getElementById'](_0x4a6d80(0xb9))['getElementsByTagName']('tbody')[0x0];_0x21bbca[_0x4a6d80(0xe9)]='';let _0x84fa2d=_0x509b53[_0x4a6d80(0xdd)]?_0x509b53['!rows'][_0x4a6d80(0xf8)]:0xf;for(let _0x183a77=0x2;_0x183a77<=_0x84fa2d;_0x183a77++){let _0x5598e0=_0x509b53['A'+_0x183a77]?_0x509b53['A'+_0x183a77]['v']:'',_0x3294d2=_0x509b53['B'+_0x183a77]?_0x509b53['B'+_0x183a77]['v']:'',_0x3dca4a=_0x509b53['C'+_0x183a77]?_0x509b53['C'+_0x183a77]['v']:'',_0x5ce978=_0x509b53['D'+_0x183a77]?_0x509b53['D'+_0x183a77]['v']:'',_0xcbe2b3=_0x509b53['E'+_0x183a77]?_0x509b53['E'+_0x183a77]['v']:'',_0x5c24aa=_0x509b53['F'+_0x183a77]?_0x509b53['F'+_0x183a77]['v']:'',_0x150d3e=_0x509b53['G'+_0x183a77]?_0x509b53['G'+_0x183a77]['v']:'',_0x47895d=_0x509b53['H'+_0x183a77]?_0x509b53['H'+_0x183a77]['v']:'',_0x1fa58e=_0x509b53['I'+_0x183a77]?_0x509b53['I'+_0x183a77]['v']:'',_0x2ee15b=_0x509b53['J'+_0x183a77]?_0x509b53['J'+_0x183a77]['v']:'',_0x543962=_0x509b53['K'+_0x183a77]?_0x509b53['K'+_0x183a77]['v']:'',_0x2dac9e=_0x509b53['L'+_0x183a77]?_0x509b53['L'+_0x183a77]['v']:'',_0x33de2b=_0x509b53['M'+_0x183a77]?_0x509b53['M'+_0x183a77]['v']:'',_0x11a22d=_0x509b53['O'+_0x183a77]?_0x509b53['O'+_0x183a77]['v']:'',_0x5330e1=_0x509b53['P'+_0x183a77]?_0x509b53['P'+_0x183a77]['v']:'',_0x1b4c5b=document[_0x4a6d80(0xe5)]('tr');_0x1b4c5b['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+_0x5598e0+_0x4a6d80(0xf0)+_0x3294d2+_0x4a6d80(0xf0)+_0x3dca4a+_0x4a6d80(0xf0)+_0x5ce978+_0x4a6d80(0xf0)+_0xcbe2b3+_0x4a6d80(0xf0)+_0x5c24aa+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+_0x150d3e+_0x4a6d80(0xf0)+_0x47895d+_0x4a6d80(0xf0)+_0x1fa58e+_0x4a6d80(0xf0)+_0x2ee15b+_0x4a6d80(0xf0)+_0x543962+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+_0x2dac9e+_0x4a6d80(0xf0)+_0x33de2b+_0x4a6d80(0xf0)+_0x11a22d+_0x4a6d80(0x105)+_0x5330e1+_0x4a6d80(0xbb),_0x21bbca['appendChild'](_0x1b4c5b);}}function switchTab(_0x8f3be8){var _0x40c9f7=_0x1542c2;const _0x1f5df1=document[_0x40c9f7(0xae)](_0x8f3be8);_0x1f5df1?_0x1f5df1[_0x40c9f7(0xa5)][_0x40c9f7(0x10e)]='block':console[_0x40c9f7(0xb1)](_0x40c9f7(0xb6)+_0x8f3be8+'\x22\x20not\x20found.');}function socialMediaLinks(){var _0x45b0cb=_0x1542c2;const _0x42fafa='https://www.facebook.com/netdmuzik',_0xaebe4e=_0x45b0cb(0xbf),_0x1f3a90='https://twitter.com/netdmuzik',_0x498582=_0x45b0cb(0x104),_0x46dc42='https://www.tiktok.com/@netdmuzik';return{'facebookUrl':_0x42fafa,'instagramUrl':_0xaebe4e,'twitterUrl':_0x1f3a90,'youtubeUrl':_0x498582,'tiktokUrl':_0x46dc42};}function formatISRCForSearch(_0x495557){var _0x99258f=_0x1542c2;_0x495557=_0x495557[_0x99258f(0xf3)](/-/g,'');if(_0x495557[_0x99258f(0xf8)]!==0xc)return alert('ISRC\x20kodu\x2012\x20karakter\x20uzunluğunda\x20olmalıdır.'),null;let _0x2dd536=_0x495557[_0x99258f(0xaa)](0x0,0x2),_0x333d9d=_0x495557['slice'](0x2,0x5),_0x3e1224=_0x495557[_0x99258f(0xaa)](0x5,0x7),_0x4a4206=_0x495557[_0x99258f(0xaa)](0x7,0xc);return _0x2dd536+'-'+_0x333d9d+'-'+_0x3e1224+'-'+_0x4a4206;}function searchByISRC(_0x3bdc5a){var _0x5ad56a=_0x1542c2;let _0x1200d4=document[_0x5ad56a(0xae)](_0x5ad56a(0xc3))[_0x5ad56a(0xb8)],_0x568102=_0x3bdc5a['E'+_0x1200d4]?_0x3bdc5a['E'+_0x1200d4]['v']:null;if(!_0x568102){alert('ISRC\x20bilgisi\x20bulunamadı!');return;}let _0x7a9a6c=formatISRCForSearch(_0x568102);if(_0x7a9a6c){let _0x3fb413='https://www.believebackstage.com/catalog/manager?~formSubmitted=1&backstageMiscSearch='+_0x7a9a6c;window['open'](_0x3fb413,_0x5ad56a(0xf1));}}document[_0x1542c2(0xae)](_0x1542c2(0x10a))[_0x1542c2(0xf7)](_0x1542c2(0x117),function(){var _0x3175f6=_0x1542c2,_0x33f254=document[_0x3175f6(0xae)]('fileInput'),_0x2bd671=_0x33f254[_0x3175f6(0xc5)][0x0];if(!_0x2bd671){alert(_0x3175f6(0xa2));return;}var _0x262437=new FileReader();_0x262437[_0x3175f6(0x106)]=function(_0x4df786){var _0x5c7f14=_0x3175f6,_0x346270=new Uint8Array(_0x4df786[_0x5c7f14(0xd4)][_0x5c7f14(0xe0)]),_0xd0b7a5=XLSX[_0x5c7f14(0xa4)](_0x346270,{'type':_0x5c7f14(0xda)}),_0x3d839a=_0xd0b7a5[_0x5c7f14(0xad)][0x0],_0x4dc750=_0xd0b7a5[_0x5c7f14(0x107)][_0x3d839a];searchByISRC(_0x4dc750);},_0x262437[_0x3175f6(0xe3)](_0x2bd671);});function convertValueToString(_0x2809da){var _0x2923d9=_0x1542c2;return typeof _0x2809da===_0x2923d9(0x115)&&_0x2809da>0x9c40&&_0x2809da<0xc350?convertExcelDate(_0x2809da):String(_0x2809da);}function convertExcelDate(_0x3a7908){var _0x391916=_0x1542c2;const _0x41d485=new Date(0x76c,0x0,0x1),_0x6abc68=new Date(_0x41d485[_0x391916(0xd7)]()+(_0x3a7908-0x2)*0x18*0x3c*0x3c*0x3e8),_0x29ad64=String(_0x6abc68[_0x391916(0xd1)]())[_0x391916(0xea)](0x2,'0'),_0x47c6d7=String(_0x6abc68['getMonth']()+0x1)['padStart'](0x2,'0'),_0x82fe25=_0x6abc68['getFullYear']();return _0x29ad64+'.'+_0x47c6d7+'.'+_0x82fe25;}
+// Google Apps Script URL'nizi buraya ekleyin
+const API_URL = 'https://script.google.com/macros/s/AKfycbwkMVhA2OfLmscXrz7ITqSC14_8Ty6KTwis8lmIYsSJFlCKEDThd4EHxt2g7QdUQcfj/exec';
+
+let etiketlerData = [];
+let labelsData = [];
+let fallbackGenre = '';
+let rowIndex = 2; // Varsayılan satır indeksi
+
+// Sayfa yüklendiğinde API'den verileri çekme
+document.addEventListener('DOMContentLoaded', function () {
+    const fallbackGenreSelect = document.getElementById('fallbackGenreSelect');
+    fallbackGenreSelect.addEventListener('change', function () {
+        fallbackGenre = fallbackGenreSelect.value;
+        console.log("Seçilen Fallback Genre:", fallbackGenre);
+    });
+
+    // API'den verileri çek
+    fetch(API_URL)
+        .then(response => response.json())
+        .then(data => {
+            etiketlerData = data['etiketler'];
+            labelsData = data['labels'];
+            console.log('Hazır!');
+        })
+        .catch(error => console.error('Veriler yüklenirken hata oluştu:', error));
+});
+
+// Satır indeksi artırma ve azaltma işlevleri
+document.getElementById('increaseRowIndex').addEventListener('click', function () {
+    rowIndex++;
+    document.getElementById('rowIndexDisplay').textContent = rowIndex;
+});
+
+document.getElementById('decreaseRowIndex').addEventListener('click', function () {
+    if (rowIndex > 1) {
+        rowIndex--;
+        document.getElementById('rowIndexDisplay').textContent = rowIndex;
+    }
+});
+
+
+document.getElementById('textFileInput').addEventListener('change', function (e) {
+    var file = e.target.files[0];
+
+    if (!file) {
+        alert('Lütfen bir metin veya Word dosyası seçin.');
+        return;
+    }
+
+    var textPreviewDiv = document.getElementById('textPreview');
+
+    if (file.name.endsWith('.txt')) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var content = e.target.result;
+
+            // İçeriği önizleme panelinde göster
+            textPreviewDiv.innerText = content;
+
+            // Sekmeleri göster
+            switchTab('textPreviewTab');
+        };
+
+        reader.readAsText(file);
+    } else if (file.name.endsWith('.docx')) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var arrayBuffer = e.target.result;
+
+            mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
+                .then(function (result) {
+                    var html = result.value; // HTML olarak dönüşüm
+                    var messages = result.messages; // Dönüşüm sırasında oluşan mesajlar
+
+                    // İçeriği önizleme panelinde göster
+                    textPreviewDiv.innerHTML = html;
+
+                    // Sekmeleri göster
+                    switchTab('textPreviewTab');
+                })
+                .catch(function (error) {
+                    console.error('Dosya dönüştürme hatası:', error);
+                    alert('Word dosyası okunurken bir hata oluştu.');
+                });
+        };
+
+        reader.readAsArrayBuffer(file);
+    } else {
+        alert('Lütfen .txt veya .docx uzantılı bir dosya seçin.');
+    }
+});
+
+
+document.getElementById('fileInput').addEventListener('change', function (e) {
+    // Burada herhangi bir işlem yapmamıza gerek yok çünkü ön izleme butonuna tıklandığında işlem yapıyoruz
+});
+
+// Ortak işlev: Çıktı oluşturma işlemi
+function createOutputText(worksheet) {
+    // Satır indeksi kontrolü
+    const row = rowIndex;
+    // Hücre adreslerine göre verileri al ve değişkenlere ata
+    var trackTitle = worksheet[`A${row}`] ? worksheet[`A${row}`].v : '';
+    var artist = worksheet[`B${row}`] ? worksheet[`B${row}`].v : '';
+    var albumTitle = worksheet[`C${row}`] ? worksheet[`C${row}`].v : '';
+    var label = worksheet[`D${row}`] ? worksheet[`D${row}`].v : '';
+    var isrc = worksheet[`E${row}`] ? worksheet[`E${row}`].v : '';
+    var upc = worksheet[`F${row}`] ? worksheet[`F${row}`].v : '';
+    var genre = worksheet[`G${row}`] ? worksheet[`G${row}`].v : '';
+    var releaseDate = worksheet[`H${row}`] ? worksheet[`H${row}`].v : '';
+    var formattedReleaseDate = convertValueToString(releaseDate);
+    var author = worksheet[`I${row}`] ? worksheet[`I${row}`].v : '';
+    var composer = worksheet[`J${row}`] ? worksheet[`J${row}`].v : '';
+    var arranger = worksheet[`K${row}`] ? worksheet[`K${row}`].v : '';
+    var director = worksheet[`L${row}`] ? worksheet[`L${row}`].v : '';
+    var typeOfRelease = worksheet[`M${row}`] ? worksheet[`M${row}`].v : '';
+    var albumCoverStatus = worksheet[`N${row}`] ? worksheet[`N${row}`].v : '';
+    var commentsStatus = worksheet[`O${row}`] ? worksheet[`O${row}`].v : '';
+    var additionalDatas = worksheet[`P${row}`] ? worksheet[`P${row}`].v : '';
+
+    var formattedTrackTitle = formatTrackTitle(trackTitle);
+    var formattedArtist = formatArtist(artist);
+    var genreLabels = lookupGenreTags(genre);
+    var matchedLabelTitle = lookupLabelTitle(label);
+    var formattedISRC = formatISRC(isrc);
+    var title = formattedArtist.trim().concat(" - ", trackTitle.trim());
+    var artistForTags = replaceFeatAndAnd(artist);
+    var mergedTagsForArtistAndTrackTitle = "," + artistForTags.concat(",", trackTitle);
+    var fileNameFormat = removeTurkishCharsAndSpaces(formattedArtist).concat("-", removeTurkishCharsAndSpaces(formattedTrackTitle));
+    var possesiveArtist = addPossessiveSuffix(formattedArtist);
+    var description = generateDescription(possesiveArtist, label.trim(), albumTitle.trim(), trackTitle.trim());
+    var lyricsDescription = generateLyricsText(trackTitle);
+    var kunye = generateKunye(author, composer, arranger, director, lyricsDescription);
+    var playlistLinks = generateLinks(genre);
+    var artistWithoutTurkishChars = removeTurkishChars(formattedArtist);
+    var trackWithoutTurkishChars = removeTurkishChars(formattedTrackTitle);
+    var mergedTags = getMergedTags(genre, fallbackGenre).concat(title, ",", formattedArtist, ",", trackTitle, ",", artistWithoutTurkishChars, ",", trackWithoutTurkishChars, ",", artistWithoutTurkishChars, " - ", trackWithoutTurkishChars);
+    var hashTags = generateHashtags(artist, trackTitle);
+    var searchURLs = generateSearchUrls(formattedArtist, trackTitle);
+    var socialMediaURLs = socialMediaLinks();
+
+    var outputText = `Label: ${matchedLabelTitle}
+
+Genre: ${genre}
+Usage Policy:
+
+ISRC: ${formattedISRC}
+UPC: ${upc}
+
+${mergedTagsForArtistAndTrackTitle}
+${fileNameFormat}
+
+${formattedArtist}
+${trackTitle}
+
+Selamlar,
+
+${title}
+Yayın Tarihi: ${formattedReleaseDate}
+
+YouTube: 
+
+Sevgiler.
+
+İzlesene: 
+
+Netd: http://www.netd.com
+
+------------
+${description}
+
+${kunye}
+
+*Facebook* ${socialMediaURLs.facebookUrl}
+*Instagram* ${socialMediaURLs.instagramUrl}
+*Twitter* ${socialMediaURLs.twitterUrl}
+*Youtube* ${socialMediaURLs.youtubeUrl}
+*Tiktok* ${socialMediaURLs.tiktokUrl}
+
+${playlistLinks}
+
+${hashTags}
+
+${mergedTags}
+
+${searchURLs.youtubeUrlCombined}
+${searchURLs.youtubeUrlArtist}
+${searchURLs.googleUrl}`;
+
+    return outputText;
+}
+
+// Ön izleme butonu: Çıktı panelinde göster
+document.getElementById('additionalButton').addEventListener('click', function () {
+    var fileInput = document.getElementById('fileInput');
+    var file = fileInput.files[0];
+
+    if (!file) {
+        alert('Lütfen bir Excel dosyası yükleyin.');
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, { type: 'array' });
+
+        var firstSheetName = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[firstSheetName];
+
+        var outputText = createOutputText(worksheet);
+
+        // Çıktı panelinde göster
+        var outputDiv = document.getElementById('output');
+        outputDiv.innerText = outputText;
+
+        // Tabloyu önizleme panelinde göster
+        previewMetadata(worksheet);
+
+        // Sekmeleri göster
+        switchTab('outputTab');
+    };
+
+    reader.readAsArrayBuffer(file);
+});
+
+
+
+
+// Sekme butonları için olay dinleyicileri
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', function () {
+        const tabId = this.dataset.tab;
+        switchTab(tabId);
+    });
+});
+
+// İndir butonu: Önizleme panelindeki içeriği indir
+document.getElementById('processButton').addEventListener('click', function () {
+    var outputContent = document.getElementById('output').innerText || document.getElementById('output').textContent;
+
+    if (!outputContent) {
+        alert('Önizleme panelinde içerik bulunamadı.');
+        return;
+    }
+
+    // Satır sonu karakterlerini doğru şekilde ayarlama
+    var adjustedContent = outputContent.replace(/\n/g, '\r\n');
+
+    // TXT dosyasını indir
+    var blob = new Blob([adjustedContent], { type: 'text/plain;charset=utf-8' });
+    var url = window.URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'klipInfo.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+});
+
+
+
+
+
+
+
+
+function formatTrackTitle(value) {
+    // Türkçe karakterlerin büyük/küçük dönüşümleri için harita
+    const turkishMap = {
+        'i': 'İ', 'ş': 'Ş', 'ğ': 'Ğ', 'ü': 'Ü', 'ö': 'Ö', 'ç': 'Ç',
+        'ı': 'I', 'İ': 'i', 'Ş': 'ş', 'Ğ': 'ğ', 'Ü': 'ü', 'Ö': 'ö', 'Ç': 'ç'
+    };
+
+    value = value.trim();
+
+    value = value.split(' ').map(function(word) {
+        if (word.length > 0) {
+            let firstChar = word.charAt(0);
+            let rest = word.substring(1);
+
+            // İlk karakteri büyük harfe dönüştürürken Türkçe harfleri göz önünde bulundur
+            firstChar = turkishMap[firstChar] !== undefined ? turkishMap[firstChar].toUpperCase() : firstChar.toUpperCase();
+
+            // Kalan harfleri küçük harfe dönüştürürken Türkçe harfleri göz önünde bulundur
+            rest = rest.toLowerCase().split('').map(char => {
+                return turkishMap[char] !== undefined ? turkishMap[char].toLowerCase() : char;
+            }).join('');
+
+            return firstChar + rest;
+        } else {
+            return word;
+        }
+    }).join(' ');
+
+    return value;
+}
+
+
+
+function lookupGenreTags(genre) {
+    const entry = etiketlerData.find(item => item.genre.toLowerCase() === genre.toLowerCase());
+    return entry ? entry['merge-tags'] : 'Etiket bulunamadı';
+}
+
+function lookupLabelTitle(label) {
+    const entry = labelsData.find(item => item.descriptionTitle.toLowerCase() === label.toLowerCase());
+    return entry ? entry.labelTitle : 'Label bulunamadı';
+}
+function searchByLabel(label) {
+    const results = labelsData.filter(item => item.labelTitle.toLowerCase().includes(label.toLowerCase()));
+    return results.length > 0 ? results : 'Label bulunamadı';
+}
+/* Bu fonksiyonla ISRC formatlanır ve geçerliliği kontrol edilir*/
+function formatISRC(value) {
+    // Boşlukları ve "-" işaretlerini sil
+    value = value.replace(/[\s\-]/g, '').toUpperCase();
+
+    // ISRC'nin doğru formatta olup olmadığını kontrol et
+    var isValid = /^[A-Z]{2}[A-Z0-9]{3}\d{2}\d{5}$/.test(value);
+
+    if (!isValid) {
+        return 'Geçersiz ISRC formatı';
+    }
+
+    return value;
+}
+
+
+/* Bu fonksiyonla sanatçı adları etiket için ayrıştırılır */
+function replaceFeatAndAnd(value) {
+    // RegExp kullanarak "feat.", "feat", "&", "and" ifadelerini yakalayalım ve "," ile değiştirelim
+    return value.replace(/\b(feat\.?|&|and)\b/gi, ',');
+}
+/* Bu fonksiyonla türkçe karakterler ve boşluklar silinir */
+function removeTurkishCharsAndSpaces(value) {
+    // Türkçe karakterleri İngilizce karşılıklarına dönüştür
+    const turkishMap = {
+        'ç': 'c', 'Ç': 'C',
+        'ğ': 'g', 'Ğ': 'G',
+        'ı': 'i', 'I': 'I',
+        'ö': 'o', 'Ö': 'O',
+        'ş': 's', 'Ş': 'S',
+        'ü': 'u', 'Ü': 'U'
+    };
+    
+    value = value.replace(/[çğıöşüÇĞIÖŞÜ]/g, function(match) {
+        return turkishMap[match];
+    });
+
+    // Boşlukları kaldır
+    value = value.replace(/\s+/g, '');
+
+    return value;
+}
+function formatArtist(value) {
+    // Başındaki ve sonundaki boşlukları temizle
+    value = value.trim();
+
+    // "ft", "feat", "Feat", "FEAT", "ft." gibi varyantları " feat." olarak değiştirelim
+    value = value.replace(/\s(ft\.?|feat\.?|FEAT\.?|FT\.?)\s/gi, ' feat. ');
+
+    // Feat. ifadesini değiştirdikten sonra başındaki ve sonundaki ekstra boşlukları bir kez daha temizle
+    value = value.trim();
+
+    return value;
+}
+
+
+
+
+
+
+
+
+/* Bu fonksiyon sanatçı adına iyelik eki ekler*/
+function addPossessiveSuffix(artistName) {
+    // Son harfi ve son harften önceki ilk sesli harfi belirle
+    const lastChar = artistName.slice(-1).toLowerCase();
+    const vowels = 'aeıioöuü';
+    
+    // Son harften önceki ilk sesli harfi bulmak için geriye doğru arama yap
+    let lastVowel = '';
+    for (let i = artistName.length - 1; i >= 0; i--) {
+        if (vowels.includes(artistName[i].toLowerCase())) {
+            lastVowel = artistName[i].toLowerCase();
+            break;
+        }
+    }
+
+    // Son harf sesli ise
+    if (vowels.includes(lastChar)) {
+        if (lastChar === 'e' || lastChar === 'i') {
+            return artistName + "'nin";
+        } else if (lastChar === 'a' || lastChar === 'ı') {
+            return artistName + "'nın";
+        } else if (lastChar === 'o' || lastChar === 'u') {
+            return artistName + "'nun";
+        } else if (lastChar === 'ö' || lastChar === 'ü') {
+            return artistName + "'nün";
+        }
+    } else {
+        // Son harf sessiz ise
+        if (lastVowel === 'o' || lastVowel === 'u') {
+            return artistName + "'un";
+        } else if (lastVowel === 'a' || lastVowel === 'ı') {
+            return artistName + "'ın";
+        } else if (lastVowel === 'e' || lastVowel === 'i' || lastVowel === 'ö') {
+            return artistName + "'in";
+        } else if (lastVowel === 'ü') {
+            return artistName + "'ün";
+        }
+    }
+
+    // Eğer son harfi veya son sesli harfi bulamazsa, varsayılan olarak "nin" ekler
+    return artistName + "'nin";
+}
+/* Bu fonksiyon açıklama satırını oluşturur*/
+function generateDescription(value1, value2, value3, value4) {
+    // Checkbox'ların durumunu kontrol et
+    var isSingle = document.getElementById('isSingleCheckbox').checked;
+    var is4K = document.getElementById('is4KCheckbox').checked;
+
+    // Eğer Single seçili değilse
+    if (!isSingle) {
+        if (!is4K) {
+            return `${value1}, ${value2} etiketiyle yayınlanan "${value3}" albümünde yer alan "${value4}" isimli şarkısı, video klibiyle netd müzik'te.`;
+        } else {
+            return `${value1}, ${value2} etiketiyle yayınlanan "${value3}" albümünde yer alan "${value4}" isimli şarkısı, 4K çözünürlüğünde video klibiyle netd müzik'te.`;
+        }
+    } else {
+        // Eğer Single seçiliyse
+        if (is4K) {
+            return `${value1}, ${value2} etiketiyle yayınlanan "${value4}" isimli tekli çalışması, 4K çözünürlüğünde video klibiyle netd müzik'te.`;
+        } else {
+            return `${value1}, ${value2} etiketiyle yayınlanan "${value4}" isimli tekli çalışması, video klibiyle netd müzik'te.`;
+        }
+    }
+}
+/* Bu fonksiyon künyeyi oluşturur */
+function generateKunye(author, composer, arranger, director, lyricsText) {
+    let kunye = '';
+
+    if (author && composer && author === composer) {
+        kunye += `Söz & Müzik: ${author}\n`;
+    } else {
+        if (author) {
+            kunye += `Söz: ${author}\n`;
+        }
+        if (composer) {
+            kunye += `Müzik: ${composer}\n`;
+        }
+    }
+
+    if (arranger) {
+        kunye += `Düzenleme: ${arranger}\n`;
+    }
+
+    if (director) {
+        kunye += `Yönetmen: ${director}\n`;
+    }
+
+    if (lyricsText) {
+        kunye += `\n${lyricsText}`;
+    }
+
+    return kunye.trim();
+}
+
+
+function generateLyricsText(trackTitle) {
+	
+    var hasLyrics = document.getElementById('hasLyricsCheckbox').checked;
+
+    if (hasLyrics) {
+        return `"${trackTitle}" şarkı sözleri ile`;
+    } else {
+        return '';
+    }
+}
+
+/* Bu fonksiyon ile playlist linklerini Veritabanında arar */
+/*function lookupPlaylistURL(genre) {
+    // Veritabanında genre'yi kullanarak playlistURL'yi bul
+    const entry = etiketlerData.find(item => item.genre.toLowerCase() === genre.toLowerCase());
+    return entry ? entry.playlistURL : '';
+}*/
+/* Bu fonksiyon ile playlist linkleri oluşturulur */
+function generateLinks(genre) {
+    // genre kullanarak playlistURL'yi bul
+    /*const playlistURL = lookupPlaylistURL(genre);*/
+
+    // Metni oluştur
+    let links = `netd müzik'te bu ay http://bit.ly/nd-eniyi\nYeni Hit Şarkılar http://bit.ly/nd-yenihit`;
+
+    /*if (playlistURL) {
+        links += `\n${playlistURL}`;
+    }*/
+
+    return links;
+}
+
+
+function getMergedTags(genre, fallbackGenre) {
+	
+    // İlk olarak genre ile sorgu yap
+    let genreMatch = etiketlerData.find(item => item.genre.toLowerCase() === genre.toLowerCase() && item['merge-tags']);
+
+    // Eğer genre için bir eşleşme bulunamazsa, fallbackGenre ile tekrar sorgu yap
+    if (!genreMatch && fallbackGenre) {
+        genreMatch = etiketlerData.find(item => item.genre.toLowerCase() === fallbackGenre.toLowerCase() && item['merge-tags']);
+    }
+
+    // Sonuçları döndür
+    if (genreMatch && genreMatch['merge-tags']) {
+        return genreMatch['merge-tags'];
+    } else {
+        return 'Etiket bulunamadı';
+    }
+}
+
+function removeTurkishChars(value) {
+    // Türkçe karakterleri İngilizce karşılıklarına dönüştür
+    const turkishMap = {
+        'ç': 'c', 'Ç': 'C',
+        'ğ': 'g', 'Ğ': 'G',
+        'ı': 'i', 'I': 'I',
+        'ö': 'o', 'Ö': 'O',
+        'ş': 's', 'Ş': 'S',
+        'ü': 'u', 'Ü': 'U'
+    };
+    
+    value = value.replace(/[çğıöşüÇĞIÖŞÜ]/g, function(match) {
+        return turkishMap[match];
+    });
+
+    return value;
+}
+function generateHashtags(artist, trackTitle) {
+    const collaborationTerms = ["feat\\.", "feat", "&", "X", "ft\\.", "ft"];
+    const regex = new RegExp(`\\b(${collaborationTerms.join('|')})\\b`, 'gi');
+
+    let splitArtists = artist.split(regex).filter(item => !regex.test(item));
+    let cleanArtists = splitArtists.map(artist => artist.trim());
+
+    function sanitizeForHashtag(value) {
+        return value.replace(/[^a-zA-Z0-9çğıöşüÇĞİÖŞÜ]/g, '').trim();
+    }
+
+    let independentHashtags = cleanArtists.map(artist => `#${sanitizeForHashtag(artist)}`).join(' ');
+    let combinedArtistHashtag = `#${cleanArtists.map(artist => sanitizeForHashtag(artist)).join('')}`;
+    let trackHashtag = `#${sanitizeForHashtag(trackTitle)}`;
+    let trackHashtagNoHash = `${sanitizeForHashtag(trackTitle)}`; // Başında # olmadan
+
+    return `${independentHashtags} ${trackHashtag} ${combinedArtistHashtag}${trackHashtagNoHash}`;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function generateSearchUrls(artist, trackTitle) {
+    // Google ve YouTube arama URL'lerinin temel formatları
+    const googleSearchUrl = "https://www.google.com/search?q=";
+    const youtubeSearchUrl = "https://www.youtube.com/results?search_query=";
+
+    // Arama sorguları için artist ve trackTitle'ı birleştirme
+    const queryArtist = encodeURIComponent(artist.trim());
+    const queryTrackTitle = encodeURIComponent(trackTitle.trim());
+    const queryCombined = encodeURIComponent(`${artist} - ${trackTitle}`.trim());
+
+    // Google ve YouTube arama URL'lerini oluşturma
+    const googleUrl = `${googleSearchUrl}${queryCombined}`;
+    const youtubeUrlArtist = `${youtubeSearchUrl}${queryArtist}`;
+    const youtubeUrlCombined = `${youtubeSearchUrl}${queryCombined}`;
+
+    // URL'leri döndürme
+    return {
+        googleUrl: googleUrl,
+        youtubeUrlArtist: youtubeUrlArtist,
+        youtubeUrlCombined: youtubeUrlCombined
+    };
+}
+
+// Metadata önizleme fonksiyonu
+function previewMetadata(worksheet) {
+    const previewTableBody = document.getElementById('previewTable').getElementsByTagName('tbody')[0];
+    previewTableBody.innerHTML = ''; // Mevcut içeriği temizle
+
+    // Çalışma sayfasının aralığını al
+    let range = XLSX.utils.decode_range(worksheet['!ref']);
+    let rowCount = range.e.r + 1; // Satır sayısını hesapla
+
+    for (let row = 2; row <= rowCount; row++) {
+        let trackTitle = worksheet[`A${row}`] ? worksheet[`A${row}`].v : '';
+        let artist = worksheet[`B${row}`] ? worksheet[`B${row}`].v : '';
+        let albumTitle = worksheet[`C${row}`] ? worksheet[`C${row}`].v : '';
+        let label = worksheet[`D${row}`] ? worksheet[`D${row}`].v : '';
+        let isrc = worksheet[`E${row}`] ? worksheet[`E${row}`].v : '';
+        let upc = worksheet[`F${row}`] ? worksheet[`F${row}`].v : '';
+        let genre = worksheet[`G${row}`] ? worksheet[`G${row}`].v : '';
+        let releaseDate = worksheet[`H${row}`] ? worksheet[`H${row}`].v : '';
+        let author = worksheet[`I${row}`] ? worksheet[`I${row}`].v : '';
+        let composer = worksheet[`J${row}`] ? worksheet[`J${row}`].v : '';
+        let arranger = worksheet[`K${row}`] ? worksheet[`K${row}`].v : '';
+        let director = worksheet[`L${row}`] ? worksheet[`L${row}`].v : '';
+        let typeOfRelease = worksheet[`M${row}`] ? worksheet[`M${row}`].v : '';
+        let lyrics = worksheet[`O${row}`] ? worksheet[`O${row}`].v : ''; // Lyrics (O sütunu)
+        let description = worksheet[`P${row}`] ? worksheet[`P${row}`].v : ''; // Description (P sütunu)
+
+        let rowElement = document.createElement('tr');
+        rowElement.innerHTML = `
+            <td>${trackTitle}</td>
+            <td>${artist}</td>
+            <td>${albumTitle}</td>
+            <td>${label}</td>
+            <td>${isrc}</td>
+            <td>${upc}</td>
+            <td>${genre}</td>
+            <td>${releaseDate}</td>
+            <td>${author}</td>
+            <td>${composer}</td>
+            <td>${arranger}</td>
+            <td>${director}</td>
+            <td>${typeOfRelease}</td>
+            <td>${lyrics}</td> 
+            <td>${description}</td>
+        `;
+
+        previewTableBody.appendChild(rowElement);
+    }
+}
+
+function switchTab(tabId) {
+    // Tüm sekme içeriklerini gizle
+    document.querySelectorAll('.tab-content').forEach(function (content) {
+        content.style.display = 'none';
+    });
+
+    // İstenen sekmeyi göster
+    const tabContent = document.getElementById(tabId);
+    if (tabContent) {
+        tabContent.style.display = 'block';
+    } else {
+        console.error(`Tab with ID "${tabId}" not found.`);
+    }
+}
+
+
+
+
+
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', function () {
+        const tabId = this.dataset.tab;
+        switchTab(tabId);
+    });
+});
+
+
+
+function socialMediaLinks () {
+    // Google ve YouTube arama URL'lerinin temel formatları
+    const facebookUrl = "https://www.facebook.com/netdmuzik";
+    const instagramUrl = "https://instagram.com/netdmuzik";
+    const twitterUrl = "https://twitter.com/netdmuzik";
+    const youtubeUrl = "https://www.youtube.com/@netdmuzik";
+    const tiktokUrl = "https://www.tiktok.com/@netdmuzik";
+
+    // URL'leri döndürme
+    return {
+        facebookUrl: facebookUrl,
+        instagramUrl: instagramUrl,
+        twitterUrl: twitterUrl,
+        youtubeUrl: youtubeUrl,
+        tiktokUrl: tiktokUrl
+    };
+}
+
+function formatISRCForSearch(isrc) {
+    isrc = isrc.replace(/-/g, '');
+
+    if (isrc.length !== 12) {
+        alert('ISRC kodu 12 karakter uzunluğunda olmalıdır.');
+        return null;
+    }
+
+    let part1 = isrc.slice(0, 2);
+    let part2 = isrc.slice(2, 5);
+    let part3 = isrc.slice(5, 7);
+    let part4 = isrc.slice(7, 12);
+
+    return `${part1}-${part2}-${part3}-${part4}`;
+}
+
+
+
+function searchByISRC(worksheet) {
+    let rowIndex = document.getElementById('rowIndexDisplay').textContent;
+
+    // ISRC bilgisini Excel dosyasından al
+    let isrc = worksheet[`E${rowIndex}`] ? worksheet[`E${rowIndex}`].v : null;
+
+    if (!isrc) {
+        alert('ISRC bilgisi bulunamadı!');
+        return;
+    }
+
+    // ISRC kodunu formatla
+    let formattedISRC = formatISRCForSearch(isrc);
+
+    if (formattedISRC) {
+        // Linki oluştur
+        let searchURL = `https://www.believebackstage.com/catalog/manager?~formSubmitted=1&backstageMiscSearch=${formattedISRC}`;
+        
+        // Kullanıcıyı bu linke yönlendir
+        window.open(searchURL, '_blank');
+    }
+}
+
+document.getElementById('searchISRCButton').addEventListener('click', function () {
+    var fileInput = document.getElementById('fileInput');
+    var file = fileInput.files[0];
+
+    if (!file) {
+        alert('Lütfen bir Excel dosyası yükleyin.');
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, { type: 'array' });
+
+        var firstSheetName = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[firstSheetName];  // worksheet değişkenini burada tanımlıyoruz
+
+        // ISRC ile arama yap
+        searchByISRC(worksheet);  // worksheet parametresini burada geçiriyoruz
+    };
+
+    reader.readAsArrayBuffer(file);
+});
+function convertValueToString(value) {
+    if (value instanceof Date) {
+        // Eğer değer zaten bir Date nesnesiyse
+        return value.toLocaleDateString('tr-TR');
+    } else if (typeof value === 'number') {
+        // Excel tarih numarasını tarihe çevir
+        return convertExcelDate(value);
+    } else {
+        return String(value);
+    }
+}
+
+
+function convertExcelDate(excelDate) {
+    const excelBaseDate = new Date(1900, 0, 1); // 01.01.1900
+    const convertedDate = new Date(excelBaseDate.getTime() + (excelDate - 2) * 24 * 60 * 60 * 1000); 
+    // Excel'deki tarih 1900'den itibaren hesaplanır, düzeltme ile -2 ekliyoruz.
+
+    // Tarihi 'dd.mm.yyyy' formatına çevirme
+    const day = String(convertedDate.getDate()).padStart(2, '0');
+    const month = String(convertedDate.getMonth() + 1).padStart(2, '0'); // Aylar 0'dan başlar
+    const year = convertedDate.getFullYear();
+
+    return `${day}.${month}.${year}`;
+}
+
+
