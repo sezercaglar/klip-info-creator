@@ -8,16 +8,22 @@
 </head>
 <body>
     <div class="container">
-        <h3>Metadata Dosyasını Yükle!</h3>
-        <label for="fileInput" class="custom-file-upload">
-            Dosya Seç
-        </label>
-        <input type="file" id="fileInput" accept=".xlsx, .xls, .ods" style="display: none;" />
+        <h3>Dosyalarınızı Yükleyin!</h3>
+        <div class="file-upload-group">
+            <label for="fileInput" class="custom-file-upload">
+                Metadata Yükle
+            </label>
+            <input type="file" id="fileInput" accept=".xlsx, .xls, .ods" style="display: none;" />
 
-        <h3>Veriler Hangi satırda?</h3>
+            <label for="textFileInput" class="custom-file-upload">
+                Künye Yükle
+            </label>
+            <input type="file" id="textFileInput" accept=".txt,.docx" style="display: none;" />
+        </div>
+
+        <h3>Veriler Hangi Satırda?</h3>
         <div id="rowIndexControl" class="inline-group">
             <button id="decreaseRowIndex"> - </button>
-
             <button id="increaseRowIndex"> + </button>
             <span id="rowIndexDisplay">2</span>
         </div>
@@ -59,43 +65,58 @@
 
         <div class="button-group">
             <button id="additionalButton">Ön İzleme</button>
+            <button class="tab-button" data-tab="outputTab">Çıktı Görünümü</button>
             <button class="tab-button" data-tab="tableTab">Tablo Görünümü</button>
-            <button id="processButton">Dosyayı İndir!</button>
+            <button class="tab-button" data-tab="textPreviewTab">Künye</button>
             <button id="searchISRCButton">ISRC ile Ara</button>
+            <button id="processButton" class="download-button">İndir!</button>
         </div>
 
-        <div id="output"></div>
-    </div>
-    <div id="tableTab" class="tab-content">
-        <div id="previewPanel">
-            <table id="previewTable">
-                <thead>
-                    <tr>
-                        <th>Eser Adı</th>
-                        <th>Sanatçı</th>
-                        <th>Albüm Adı</th>
-                        <th>Label</th>
-                        <th>ISRC</th>
-                        <th>UPC</th>
-                        <th>Tür</th>
-                        <th>Çıkış Tarihi</th>
-                        <th>Yazar</th>
-                        <th>Besteci</th>
-                        <th>Düzenleme</th>
-                        <th>Yönetmen</th>
-                        <th>Yayın Türü</th>
-                        <th>Lyrics</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Satırlar buraya eklenecek -->
-                </tbody>
-            </table>
+        <!-- Sekme İçerikleri -->
+         <div id="outputTab" class="tab-content">
+            <h3>Excel Dosyası Önizlemesi</h3>
+            <div id="output" class="excel-preview" contenteditable="true"></div>
+        </div>
+
+        <div id="tableTab" class="tab-content">
+            <div id="previewPanel">
+                <table id="previewTable">
+                    <thead>
+                        <tr>
+                            <th>Eser Adı</th>
+                            <th>Sanatçı</th>
+                            <th>Albüm Adı</th>
+                            <th>Label</th>
+                            <th>ISRC</th>
+                            <th>UPC</th>
+                            <th>Tür</th>
+                            <th>Çıkış Tarihi</th>
+                            <th>Yazar</th>
+                            <th>Besteci</th>
+                            <th>Düzenleme</th>
+                            <th>Yönetmen</th>
+                            <th>Yayın Türü</th>
+                            <th>Lyrics</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Satırlar buraya eklenecek -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+         <div id="textPreviewTab" class="tab-content">
+            <h3>Metin Dosyası Önizlemesi</h3>
+            <div id="textPreview" class="text-preview" contenteditable="true"></div>
         </div>
     </div>
 
+    <!-- Kütüphaneler ve script dosyaları -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>
