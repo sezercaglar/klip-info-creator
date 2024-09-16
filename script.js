@@ -776,5 +776,3 @@ function convertExcelDate(excelDate) {
 
     return `${day}.${month}.${year}`;
 }
-
-
