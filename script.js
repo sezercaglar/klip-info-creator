@@ -185,7 +185,9 @@ ${mergedTags}
 
 ${searchURLs.youtubeUrlCombined}
 ${searchURLs.youtubeUrlArtist}
-${searchURLs.googleUrl}`;
+${searchURLs.googleUrl}
+${searchURLs.studioEditUrl}
+${searchURLs.believeSearchURL}`
 
     return outputText;
 }
@@ -573,6 +575,8 @@ function generateSearchUrls(artist, trackTitle) {
     // Google ve YouTube arama URL'lerinin temel formatları
     const googleSearchUrl = "https://www.google.com/search?q=";
     const youtubeSearchUrl = "https://www.youtube.com/results?search_query=";
+    const studioEditUrl = "https://studio.youtube.com/video//edit";
+    const believeSearchURL = "https://www.believebackstage.com/catalog/manager?~formSubmitted=1&backstageMiscSearch=";
 
     // Arama sorguları için artist ve trackTitle'ı birleştirme
     const queryArtist = encodeURIComponent(artist.trim());
@@ -588,7 +592,9 @@ function generateSearchUrls(artist, trackTitle) {
     return {
         googleUrl: googleUrl,
         youtubeUrlArtist: youtubeUrlArtist,
-        youtubeUrlCombined: youtubeUrlCombined
+        youtubeUrlCombined: youtubeUrlCombined,
+	believeSearchURL: believeSearchURL,
+	studioEditUrl: studioEditUrl
     };
 }
 
