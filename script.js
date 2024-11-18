@@ -38,7 +38,6 @@ document.getElementById('decreaseRowIndex').addEventListener('click', function (
     }
 });
 
-
 document.getElementById('textFileInput').addEventListener('change', function (e) {
     var file = e.target.files[0];
 
@@ -89,7 +88,6 @@ document.getElementById('textFileInput').addEventListener('change', function (e)
         alert('Lütfen .txt veya .docx uzantılı bir dosya seçin.');
     }
 });
-
 
 document.getElementById('fileInput').addEventListener('change', function (e) {
     // Burada herhangi bir işlem yapmamıza gerek yok çünkü ön izleme butonuna tıklandığında işlem yapıyoruz
@@ -226,9 +224,6 @@ document.getElementById('additionalButton').addEventListener('click', function (
     reader.readAsArrayBuffer(file);
 });
 
-
-
-
 // Sekme butonları için olay dinleyicileri
 document.querySelectorAll('.tab-button').forEach(button => {
     button.addEventListener('click', function () {
@@ -261,13 +256,6 @@ document.getElementById('processButton').addEventListener('click', function () {
     window.URL.revokeObjectURL(url);
 });
 
-
-
-
-
-
-
-
 function formatTrackTitle(value) {
     // Türkçe karakterlerin büyük/küçük dönüşümleri için harita
     const turkishMap = {
@@ -299,8 +287,6 @@ function formatTrackTitle(value) {
     return value;
 }
 
-
-
 function lookupGenreTags(genre) {
     const entry = etiketlerData.find(item => item.genre.toLowerCase() === genre.toLowerCase());
     return entry ? entry['merge-tags'] : 'Etiket bulunamadı';
@@ -310,10 +296,12 @@ function lookupLabelTitle(label) {
     const entry = labelsData.find(item => item.descriptionTitle.toLowerCase() === label.toLowerCase());
     return entry ? entry.labelTitle : 'Label bulunamadı';
 }
+
 function searchByLabel(label) {
     const results = labelsData.filter(item => item.labelTitle.toLowerCase().includes(label.toLowerCase()));
     return results.length > 0 ? results : 'Label bulunamadı';
 }
+
 /* Bu fonksiyonla ISRC formatlanır ve geçerliliği kontrol edilir*/
 function formatISRC(value) {
     // Boşlukları ve "-" işaretlerini sil
@@ -329,12 +317,12 @@ function formatISRC(value) {
     return value;
 }
 
-
 /* Bu fonksiyonla sanatçı adları etiket için ayrıştırılır */
 function replaceFeatAndAnd(value) {
     // RegExp kullanarak "feat.", "feat", "&", "and" ifadelerini yakalayalım ve "," ile değiştirelim
     return value.replace(/\b(feat\.?|&|and)\b/gi, ',');
 }
+
 /* Bu fonksiyonla türkçe karakterler ve boşluklar silinir */
 function removeTurkishCharsAndSpaces(value) {
     // Türkçe karakterleri İngilizce karşılıklarına dönüştür
@@ -356,6 +344,7 @@ function removeTurkishCharsAndSpaces(value) {
 
     return value;
 }
+
 function formatArtist(value) {
     // Başındaki ve sonundaki boşlukları temizle
     value = value.trim();
@@ -368,13 +357,6 @@ function formatArtist(value) {
 
     return value;
 }
-
-
-
-
-
-
-
 
 /* Bu fonksiyon sanatçı adına iyelik eki ekler*/
 function addPossessiveSuffix(artistName) {
@@ -418,6 +400,7 @@ function addPossessiveSuffix(artistName) {
     // Eğer son harfi veya son sesli harfi bulamazsa, varsayılan olarak "nin" ekler
     return artistName + "'nin";
 }
+
 /* Bu fonksiyon açıklama satırını oluşturur*/
 function generateDescription(value1, value2, value3, value4) {
     // Checkbox'ların durumunu kontrol et
@@ -440,6 +423,7 @@ function generateDescription(value1, value2, value3, value4) {
         }
     }
 }
+
 /* Bu fonksiyon künyeyi oluşturur */
 function generateKunye(author, composer, arranger, director, lyricsText) {
     let kunye = '';
@@ -470,9 +454,7 @@ function generateKunye(author, composer, arranger, director, lyricsText) {
     return kunye.trim();
 }
 
-
 function generateLyricsText(trackTitle) {
-	
     var hasLyrics = document.getElementById('hasLyricsCheckbox').checked;
 
     if (hasLyrics) {
@@ -482,30 +464,15 @@ function generateLyricsText(trackTitle) {
     }
 }
 
-/* Bu fonksiyon ile playlist linklerini Veritabanında arar */
-/*function lookupPlaylistURL(genre) {
-    // Veritabanında genre'yi kullanarak playlistURL'yi bul
-    const entry = etiketlerData.find(item => item.genre.toLowerCase() === genre.toLowerCase());
-    return entry ? entry.playlistURL : '';
-}*/
 /* Bu fonksiyon ile playlist linkleri oluşturulur */
 function generateLinks(genre) {
-    // genre kullanarak playlistURL'yi bul
-    /*const playlistURL = lookupPlaylistURL(genre);*/
-
     // Metni oluştur
     let links = `netd müzik'te bu ay http://bit.ly/nd-eniyi\nYeni Hit Şarkılar http://bit.ly/nd-yenihit`;
-
-    /*if (playlistURL) {
-        links += `\n${playlistURL}`;
-    }*/
 
     return links;
 }
 
-
 function getMergedTags(genre, fallbackGenre) {
-	
     // İlk olarak genre ile sorgu yap
     let genreMatch = etiketlerData.find(item => item.genre.toLowerCase() === genre.toLowerCase() && item['merge-tags']);
 
@@ -539,6 +506,7 @@ function removeTurkishChars(value) {
 
     return value;
 }
+
 function generateHashtags(artist, trackTitle) {
     const collaborationTerms = ["feat\\.", "feat", "&", "X", "ft\\.", "ft"];
     const regex = new RegExp(`\\b(${collaborationTerms.join('|')})\\b`, 'gi');
@@ -557,19 +525,6 @@ function generateHashtags(artist, trackTitle) {
 
     return `${independentHashtags} ${trackHashtag} ${combinedArtistHashtag}${trackHashtagNoHash}`;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function generateSearchUrls(artist, trackTitle) {
     // Google ve YouTube arama URL'lerinin temel formatları
@@ -593,8 +548,8 @@ function generateSearchUrls(artist, trackTitle) {
         googleUrl: googleUrl,
         youtubeUrlArtist: youtubeUrlArtist,
         youtubeUrlCombined: youtubeUrlCombined,
-	believeSearchURL: believeSearchURL,
-	studioEditUrl: studioEditUrl
+    believeSearchURL: believeSearchURL,
+    studioEditUrl: studioEditUrl
     };
 }
 
@@ -662,10 +617,6 @@ function switchTab(tabId) {
     }
 }
 
-
-
-
-
 document.querySelectorAll('.tab-button').forEach(button => {
     button.addEventListener('click', function () {
         const tabId = this.dataset.tab;
@@ -673,10 +624,8 @@ document.querySelectorAll('.tab-button').forEach(button => {
     });
 });
 
-
-
 function socialMediaLinks () {
-    // Google ve YouTube arama URL'lerinin temel formatları
+    // Sosyal medya linkleri
     const facebookUrl = "https://www.facebook.com/netdmuzik";
     const instagramUrl = "https://instagram.com/netdmuzik";
     const twitterUrl = "https://twitter.com/netdmuzik";
@@ -708,8 +657,6 @@ function formatISRCForSearch(isrc) {
 
     return `${part1}-${part2}-${part3}-${part4}`;
 }
-
-
 
 function searchByISRC(worksheet) {
     let rowIndex = document.getElementById('rowIndexDisplay').textContent;
@@ -757,6 +704,7 @@ document.getElementById('searchISRCButton').addEventListener('click', function (
 
     reader.readAsArrayBuffer(file);
 });
+
 function convertValueToString(value) {
     if (value instanceof Date) {
         // Eğer değer zaten bir Date nesnesiyse
@@ -768,7 +716,6 @@ function convertValueToString(value) {
         return String(value);
     }
 }
-
 
 function convertExcelDate(excelDate) {
     const excelBaseDate = new Date(1900, 0, 1); // 01.01.1900
@@ -782,3 +729,137 @@ function convertExcelDate(excelDate) {
 
     return `${day}.${month}.${year}`;
 }
+
+// "Backstage to Metadata" butonunun işlevi
+async function generateExcel() {
+    try {
+        // Panodan veriyi al
+        const clipboardText = await navigator.clipboard.readText();
+        const lines = clipboardText.split("\n");
+
+        // Track # etiketi kontrolü
+        if (!lines.some(line => line.includes("Track #"))) {
+            alert("Invalid data format: 'Track #' not found!");
+            return;
+        }
+
+        // Başlıklar
+        const headers = [
+            "ESER / SES DOSYASI ADI", "SANATÇI", "ALBUM ADI", "YAPIM ŞİRKETİ",
+            "ISRC", "UPC", "Eser Tarzı", "Yayın Tarihi", "SÖZ", "MÜZİK", 
+            "DÜZENLEME", "KLİP YÖNETMENİ", "TÜRÜ", "ALBUM KAPAĞI (var/yok)", 
+            "Yorumlar", "Ekran Görüntüsü", "Şarkı Sözleri", "Açıklama"
+        ];
+        const rows = [];
+
+        // Albüm bilgileri
+        let albumTitle = lines[0].trim();
+        let artistName = lines[1].trim();
+        let upc = null;
+        let label = null;
+
+        // Anahtar kelimelerle veri bulma
+        const matchPatterns = {
+            "Plak Şirketi": /Plak şirketi\t(.*)/,
+            "UPC": /UPC\t(.*)/
+        };
+
+        // Track başlığı ve sütun indekslerini bulmak için değişkenler
+        let isTrackSection = false;
+        let trackHeaders = [];
+
+        // Panodaki veriyi işleme
+        lines.forEach((line, index) => {
+            // Statik veriler (Plak Şirketi, UPC) için eşleştirme
+            for (const [key, regex] of Object.entries(matchPatterns)) {
+                const match = line.match(regex);
+                if (match) {
+                    if (key === "Plak Şirketi") label = match[1].trim();
+                    if (key === "UPC") upc = match[1].trim();
+                }
+            }
+
+            // Track verileri için başlıkları algılama
+            if (line.startsWith("Track #")) {
+                isTrackSection = true;
+                trackHeaders = line.split("\t").map(header => header.trim());
+            } else if (isTrackSection) {
+                // Sütun başlıklarına göre dinamik veri çekme
+                const values = line.split("\t");
+                const trackRow = {};
+                trackHeaders.forEach((header, i) => {
+                    trackRow[header] = values[i]?.trim() || "";
+                });
+
+                // Zorunlu alanların kontrolü
+                if (!trackRow["Track title"] || !trackRow["Artist"] || !trackRow["ISRC"]) {
+                    console.warn("Skipping invalid track data due to missing required fields.");
+                    return;
+                }
+
+                // Track Title düzenlemeleri
+                let trackTitle = trackRow["Track title"]
+                    .replace("Explicit", "") // Explicit'i kaldır
+                    .replace(/\(.*\)/g, "")  // Parantezleri kaldır
+                    .trim();
+
+                // Feat. kontrolü
+                const featMatch = trackTitle.match(/feat\. (.*)/i);
+                if (featMatch) {
+                    const featArtist = featMatch[1].trim();
+                    trackTitle = trackTitle.replace(/feat\. (.*)/i, "").trim();
+                    trackRow["Artist"] += ` feat. ${featArtist}`;
+                }
+
+                // Excel'e eklenecek veriler
+                rows.push([
+                    trackTitle, // ESER / SES DOSYASI ADI
+                    trackRow["Artist"], // SANATÇI
+                    albumTitle, // ALBUM ADI
+                    label, // YAPIM ŞİRKETİ
+                    trackRow["ISRC"], // ISRC
+                    upc, // UPC
+                    trackRow["Genre #1"], // Eser Tarzı
+                    "", // Yayın Tarihi
+                    trackRow["Authors"] || "", // SÖZ
+                    trackRow["Composers"] || "", // MÜZİK
+                    "", // DÜZENLEME
+                    "", // KLİP YÖNETMENİ
+                    "", // TÜRÜ
+                    "", // ALBUM KAPAĞI (var/yok)
+                    "", // Yorumlar
+                    "", // Ekran Görüntüsü
+                    "", // Şarkı Sözleri
+                    ""  // Açıklama
+                ]);
+            }
+        });
+
+        if (rows.length === 0) {
+            alert("No track data found!");
+            return;
+        }
+
+        // Excel dosyası oluşturma
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+        XLSX.utils.book_append_sheet(wb, ws, "Metadata");
+
+        // Excel dosyasını indir
+        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
+        const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+        saveAs(blob, "netd-bs-metadata.xlsx");
+    } catch (err) {
+        alert("Error reading clipboard or generating file: " + err.message);
+    }
+}
+
+function s2ab(s) {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+}
+
+// "Backstage to Metadata" butonuna tıklama olayını dinle
+document.getElementById("backstageButton").addEventListener("click", generateExcel);
