@@ -21,6 +21,10 @@
                 Künye Yükle
             </label>
             <input type="file" id="textFileInput" accept=".txt,.docx" style="display: none;" />
+
+            <button id="backstageButton" class="custom-file-upload">
+                Metadata Oluştur
+            </button>
         </div>
 
         <h3>Veriler Hangi Satırda?</h3>
@@ -33,7 +37,7 @@
         <div class="inline-group">
             <label><input type="checkbox" id="isSingleCheckbox" checked> Single</label>
             <label><input type="checkbox" id="is4KCheckbox"> 4K</label>
-            <label><input type="checkbox" id="hasLyricsCheckbox"> Lyrics Available</label>
+            <label><input type="checkbox" id="hasLyricsCheckbox"> Sözler Var</label>
         </div>
 
         <select id="fallbackGenreSelect" class="dropdown">
@@ -116,7 +120,8 @@
     </div>
 
     <!-- Kütüphaneler ve script dosyaları -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
     <script src="script.js"></script>
