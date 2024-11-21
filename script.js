@@ -577,7 +577,10 @@ function previewMetadata(worksheet) {
         let director = worksheet[`L${row}`] ? worksheet[`L${row}`].v : '';
         let typeOfRelease = worksheet[`M${row}`] ? worksheet[`M${row}`].v : '';
         let lyrics = worksheet[`O${row}`] ? worksheet[`O${row}`].v : ''; // Lyrics (O sütunu)
-        let description = worksheet[`P${row}`] ? worksheet[`P${row}`].v : ''; // Description (P sütunu)
+        let pRow = worksheet[`P${row}`] ? worksheet[`P${row}`].v : ''; // Description (P sütunu)
+        let qRow = worksheet[`Q${row}`] ? worksheet[`Q${row}`].v : ''; // Description (P sütunu)
+        let rRow = worksheet[`R${row}`] ? worksheet[`R${row}`].v : ''; // Description (P sütunu)
+        let sRow = worksheet[`S${row}`] ? worksheet[`S${row}`].v : ''; // Description (P sütunu)
 
         let rowElement = document.createElement('tr');
         rowElement.innerHTML = `
@@ -595,7 +598,10 @@ function previewMetadata(worksheet) {
             <td>${director}</td>
             <td>${typeOfRelease}</td>
             <td>${lyrics}</td> 
-            <td>${description}</td>
+            <td>${pRow}</td>
+            <td>${qRow}</td>
+            <td>${rRow}</td>
+            <td>${sRow}</td>
         `;
 
         previewTableBody.appendChild(rowElement);
