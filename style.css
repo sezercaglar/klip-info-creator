@@ -72,13 +72,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-.download-button {
-    background-color: red; /* İndirme butonunu yeşil yaptım */
-}
-
-.download-button:hover {
-    background-color: #218838;
-}
 
 .dropdown {
     padding: 8px;
@@ -169,4 +162,118 @@ button:hover {
 
 .tab-content.active {
     display: block;
+}
+
+/* Başlangıç durumu */
+button.download-button {
+    background-color: #6c757d; /* Başlangıçta gri */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-right: 6px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Gri durum (veri yokken) */
+button.download-button.missing {
+    background-color: #6c757d;
+}
+button.download-button.missing:hover {
+    background-color: #5a6268;
+}
+
+/* Yeşil (tamam) */
+button.download-button.ready {
+    background-color: #28a745;
+}
+button.download-button.ready:hover {
+    background-color: #218838;
+}
+
+/* Kırmızı (eksik varsa) */
+button.download-button.error {
+    background-color: #dc3545;
+}
+button.download-button.error:hover {
+    background-color: #c82333;
+}
+
+
+
+.status-icons {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+    z-index: 999;
+}
+
+.status-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #ccc;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.status-icon:hover {
+    transform: scale(1.2);
+}
+
+.status-icon.ready {
+    background-color: #28a745; /* yeşil */
+}
+
+.status-icon.error {
+    background-color: #dc3545; /* Kırmızı */
+}
+.status-icon.missing {
+    background-color: #6c757d; /* gri */
+}
+.label-search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.custom-autocomplete {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.suggestion-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 999;
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestion-box li {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.suggestion-box li.active,
+.suggestion-box li:hover {
+    background-color: #f0f0f0;
 }
