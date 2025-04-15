@@ -1,29 +1,48 @@
 // Google Apps Script URL'nizi buraya ekleyin
-const API_URL = 'https://script.google.com/macros/s/AKfycbwkMVhA2OfLmscXrz7ITqSC14_8Ty6KTwis8lmIYsSJFlCKEDThd4EHxt2g7QdUQcfj/exec';
+import { getEtiketlerData, getYapimcilarList, getLabelsData } from './apiManager.js';
+import { setExcelGenre, getFinalGenreTags, hasOriginalTags, hasFallbackTags, setExcelLabel, getFinalLabelTitle, updateLabelInOutput, updateLabelStatusIcon } from './tagManager.js';
 
-let etiketlerData = [];
-let labelsData = [];
 let fallbackGenre = '';
-let rowIndex = 2; // Varsayılan satır indeksi
+let rowIndex = 2;
+let fileLoaded = false;
+let loadedGenre = '';
+let formattedISRCGlobal = '';
+const downloadBtn = document.getElementById('processButton');
+const fallbackGenreSelect = document.getElementById('fallbackGenreSelect');
+const genreStatusIcon = document.getElementById("genreStatusIcon");
+const labelStatusIcon = document.getElementById("labelStatusIcon");
 
-// Sayfa yüklendiğinde API'den verileri çekme
+// Sayfa yüklendiğinde API verilerini çek ve interface ayarlarını yap
 document.addEventListener('DOMContentLoaded', function () {
-    const fallbackGenreSelect = document.getElementById('fallbackGenreSelect');
-    fallbackGenreSelect.addEventListener('change', function () {
-        fallbackGenre = fallbackGenreSelect.value;
-        console.log("Seçilen Fallback Genre:", fallbackGenre);
+    document.getElementById('labelSearchInput').addEventListener('input', () => {
+    updateLabelInOutput(true);
+    updateLabelStatusIcon(); // İkonu da kontrol et
+});
+
+    fallbackGenreSelect?.addEventListener('change', () => {
+        fallbackGenre = fallbackGenreSelect.value.trim();
+        updateTagsInOutput();
+        updateGenreStatusIcon();
     });
 
-    // API'den verileri çek
-    fetch(API_URL)
-        .then(response => response.json())
-        .then(data => {
-            etiketlerData = data['etiketler'];
-            labelsData = data['labels'];
-            console.log('Hazır!');
-        })
-        .catch(error => console.error('Veriler yüklenirken hata oluştu:', error));
+
+    if (getEtiketlerData().length && getLabelsData().length) {
+        const apiStatus = document.getElementById('apiStatus');
+        apiStatus.classList.add('ready');
+        apiStatus.title = 'API bağlantısı başarılı!';
+        console.log('Hazır!');
+    } else {
+        const apiStatus = document.getElementById('apiStatus');
+        apiStatus.classList.remove('ready');
+        apiStatus.title = 'API verisi alınamadı!';
+        console.warn('API verileri henüz hazır değil.');
+    }
 });
+
+
+
+
+
 
 // Satır indeksi artırma ve azaltma işlevleri
 document.getElementById('increaseRowIndex').addEventListener('click', function () {
@@ -90,54 +109,75 @@ document.getElementById('textFileInput').addEventListener('change', function (e)
 });
 
 document.getElementById('fileInput').addEventListener('change', function (e) {
-    // Burada herhangi bir işlem yapmamıza gerek yok çünkü ön izleme butonuna tıklandığında işlem yapıyoruz
+    fileLoaded = true;
 });
 
 // Ortak işlev: Çıktı oluşturma işlemi
 function createOutputText(worksheet) {
-    // Satır indeksi kontrolü
     const row = rowIndex;
-    // Hücre adreslerine göre verileri al ve değişkenlere ata
-    var trackTitle = worksheet[`A${row}`] ? worksheet[`A${row}`].v : '';
-    var artist = worksheet[`B${row}`] ? worksheet[`B${row}`].v : '';
-    var albumTitle = worksheet[`C${row}`] ? worksheet[`C${row}`].v : '';
-    var label = worksheet[`D${row}`] ? worksheet[`D${row}`].v : '';
-    var isrc = worksheet[`E${row}`] ? worksheet[`E${row}`].v : '';
-    var upc = worksheet[`F${row}`] ? worksheet[`F${row}`].v : '';
-    var genre = worksheet[`G${row}`] ? worksheet[`G${row}`].v : '';
-    var releaseDate = worksheet[`H${row}`] ? worksheet[`H${row}`].v : '';
-    var formattedReleaseDate = convertValueToString(releaseDate);
-    var author = worksheet[`I${row}`] ? worksheet[`I${row}`].v : '';
-    var composer = worksheet[`J${row}`] ? worksheet[`J${row}`].v : '';
-    var arranger = worksheet[`K${row}`] ? worksheet[`K${row}`].v : '';
-    var director = worksheet[`L${row}`] ? worksheet[`L${row}`].v : '';
-    var typeOfRelease = worksheet[`M${row}`] ? worksheet[`M${row}`].v : '';
-    var albumCoverStatus = worksheet[`N${row}`] ? worksheet[`N${row}`].v : '';
-    var commentsStatus = worksheet[`O${row}`] ? worksheet[`O${row}`].v : '';
-    var additionalDatas = worksheet[`P${row}`] ? worksheet[`P${row}`].v : '';
 
-    var formattedTrackTitle = formatTrackTitle(trackTitle);
-    var formattedArtist = formatArtist(artist);
-    var genreLabels = lookupGenreTags(genre);
-    var matchedLabelTitle = lookupLabelTitle(label);
-    var formattedISRC = formatISRC(isrc);
-    var title = formattedArtist.trim().concat(" - ", trackTitle.trim());
-    var artistForTags = replaceFeatAndAnd(artist);
-    var mergedTagsForArtistAndTrackTitle = "," + artistForTags.concat(",", trackTitle);
-    var fileNameFormat = removeTurkishCharsAndSpaces(formattedArtist).concat("-", removeTurkishCharsAndSpaces(formattedTrackTitle));
-    var possesiveArtist = addPossessiveSuffix(formattedArtist);
-    var description = generateDescription(possesiveArtist, label.trim(), albumTitle.trim(), trackTitle.trim());
-    var lyricsDescription = generateLyricsText(trackTitle);
-    var kunye = generateKunye(author, composer, arranger, director, lyricsDescription);
-    var playlistLinks = generateLinks(genre);
-    var artistWithoutTurkishChars = removeTurkishChars(formattedArtist);
-    var trackWithoutTurkishChars = removeTurkishChars(formattedTrackTitle);
-    var mergedTags = getMergedTags(genre, fallbackGenre).concat(title, ",", formattedArtist, ",", trackTitle, ",", artistWithoutTurkishChars, ",", trackWithoutTurkishChars, ",", artistWithoutTurkishChars, " - ", trackWithoutTurkishChars);
-    var hashTags = generateHashtags(artist, trackTitle);
-    var searchURLs = generateSearchUrls(formattedArtist, trackTitle);
-    var socialMediaURLs = socialMediaLinks();
+    const trackTitle = worksheet[`A${row}`]?.v || '';
+    const artist = worksheet[`B${row}`]?.v || '';
+    const albumTitle = worksheet[`C${row}`]?.v || '';
+    const label = worksheet[`D${row}`]?.v || '';
+    setExcelLabel(label);
+    const isrc = worksheet[`E${row}`]?.v || '';
+    const upc = worksheet[`F${row}`]?.v || '';
+    const genre = worksheet[`G${row}`]?.v || '';
+    loadedGenre = genre;
+    setExcelGenre(genre);
 
-    var outputText = `Label: ${matchedLabelTitle}
+    const releaseDate = worksheet[`H${row}`]?.v || '';
+    const formattedReleaseDate = convertValueToString(releaseDate);
+    const author = worksheet[`I${row}`]?.v || '';
+    const composer = worksheet[`J${row}`]?.v || '';
+    const arranger = worksheet[`K${row}`]?.v || '';
+    const director = worksheet[`L${row}`]?.v || '';
+    const typeOfRelease = worksheet[`M${row}`]?.v || '';
+    const albumCoverStatus = worksheet[`N${row}`]?.v || '';
+    const commentsStatus = worksheet[`O${row}`]?.v || '';
+    const additionalDatas = worksheet[`P${row}`]?.v || '';
+
+    const formattedTrackTitle = formatTrackTitle(trackTitle);
+    const formattedArtist = formatArtist(artist);
+
+    // Belirlenen fallback veya yüklenen genre'yi kullan
+    const fallback = document.getElementById('fallbackGenreSelect')?.value.trim();
+    const selectedGenre = fallback ? fallback : loadedGenre;
+    const genreTags = getFinalGenreTags();
+
+    const matchedLabelTitle = getFinalLabelTitle();
+    const formattedISRC = formatISRC(isrc);
+    // Kaydediyoruz:
+    formattedISRCGlobal = formattedISRC;
+    // ISRC durum ikonunu güncelle:
+    updateIsrcStatusIcon();
+
+    const titleStr = `${formattedArtist.trim()} - ${trackTitle.trim()}`;
+    const artistForTags = replaceFeatAndAnd(artist);
+    const mergedTagsForArtistAndTrackTitle = `,${artistForTags},${trackTitle}`;
+    const fileNameFormat = `${removeTurkishCharsAndSpaces(formattedArtist)}-${removeTurkishCharsAndSpaces(formattedTrackTitle)}`;
+    const possesiveArtist = addPossessiveSuffix(formattedArtist);
+    const description = generateDescription(possesiveArtist, label.trim(), albumTitle.trim(), trackTitle.trim());
+    const lyricsDescription = generateLyricsText(trackTitle);
+    const kunye = generateKunye(author, composer, arranger, director, lyricsDescription);
+    const playlistLinks = generateLinks(genre);
+    const artistWithoutTurkishChars = removeTurkishChars(formattedArtist);
+    const trackWithoutTurkishChars = removeTurkishChars(formattedTrackTitle);
+    const dynamicTags = [
+        titleStr,
+        formattedArtist,
+        trackTitle,
+        artistWithoutTurkishChars,
+        trackWithoutTurkishChars,
+        `${artistWithoutTurkishChars} - ${trackWithoutTurkishChars}`
+    ].join(',');
+    const mergedTags = genreTags ? `${genreTags},${dynamicTags}` : dynamicTags;
+    const hashTags = generateHashtags(artist, trackTitle);
+    const searchURLs = generateSearchUrls(formattedArtist, trackTitle);
+    const socialMediaURLs = socialMediaLinks();
+
+    const outputText = `Label: ${matchedLabelTitle}
 
 Genre: ${genre}
 Usage Policy:
@@ -153,7 +193,7 @@ ${trackTitle}
 
 Selamlar,
 
-${title}
+${titleStr}
 Yayın Tarihi: ${formattedReleaseDate}
 
 YouTube: 
@@ -185,39 +225,53 @@ ${searchURLs.youtubeUrlCombined}
 ${searchURLs.youtubeUrlArtist}
 ${searchURLs.googleUrl}
 ${searchURLs.studioEditUrl}
-${searchURLs.believeSearchURL}`
+${searchURLs.believeSearchURL}`;
 
+    // İndir butonunun durumunu güncelleme (bu kısım doküman yükleme & etiket/label durumuna göre çalışıyor)
+    downloadBtn.className = 'download-button';
+    if (!fileLoaded) {
+        downloadBtn.classList.add('missing');
+    } else if (matchedLabelTitle && genreTags) {
+        downloadBtn.classList.add('ready');
+    } else {
+        downloadBtn.classList.add('error');
+    }
+    updateLabelStatusIcon();
     return outputText;
 }
 
+
+
 // Ön izleme butonu: Çıktı panelinde göster
 document.getElementById('additionalButton').addEventListener('click', function () {
-    var fileInput = document.getElementById('fileInput');
-    var file = fileInput.files[0];
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
 
     if (!file) {
         alert('Lütfen bir Excel dosyası yükleyin.');
         return;
     }
 
-    var reader = new FileReader();
+    // Eğer kullanıcı düzenleme yaptıysa değiştirme!
+    const userModified = document.getElementById('output').getAttribute('data-user-modified') === 'true';
+    if (userModified) {
+        switchTab('outputTab');
+        return;
+    }
+
+    const reader = new FileReader();
     reader.onload = function (e) {
-        var data = new Uint8Array(e.target.result);
-        var workbook = XLSX.read(data, { type: 'array' });
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
 
-        var firstSheetName = workbook.SheetNames[0];
-        var worksheet = workbook.Sheets[firstSheetName];
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
 
-        var outputText = createOutputText(worksheet);
+        const outputText = createOutputText(worksheet);
+        document.getElementById('output').innerText = outputText;
+        document.getElementById('output').setAttribute('data-user-modified', 'false');
 
-        // Çıktı panelinde göster
-        var outputDiv = document.getElementById('output');
-        outputDiv.innerText = outputText;
-
-        // Tabloyu önizleme panelinde göster
         previewMetadata(worksheet);
-
-        // Sekmeleri göster
         switchTab('outputTab');
     };
 
@@ -234,20 +288,25 @@ document.querySelectorAll('.tab-button').forEach(button => {
 
 // İndir butonu: Önizleme panelindeki içeriği indir
 document.getElementById('processButton').addEventListener('click', function () {
-    var outputContent = document.getElementById('output').innerText || document.getElementById('output').textContent;
+    const genreIcon = document.getElementById('genreStatusIcon');
+    const labelIcon = document.getElementById('labelStatusIcon');
+
+    const outputContent = document.getElementById('output').innerText || document.getElementById('output').textContent;
 
     if (!outputContent) {
         alert('Önizleme panelinde içerik bulunamadı.');
         return;
     }
 
-    // Satır sonu karakterlerini doğru şekilde ayarlama
-    var adjustedContent = outputContent.replace(/\n/g, '\r\n');
+    if (genreIcon.classList.contains('missing') || labelIcon.classList.contains('missing')) {
+        const confirmDownload = confirm("Verilerde eksikler var. Yine de indirmek istiyor musunuz?");
+        if (!confirmDownload) return;
+    }
 
-    // TXT dosyasını indir
-    var blob = new Blob([adjustedContent], { type: 'text/plain;charset=utf-8' });
-    var url = window.URL.createObjectURL(blob);
-    var a = document.createElement('a');
+    const adjustedContent = outputContent.replace(/\n/g, '\r\n');
+    const blob = new Blob([adjustedContent], { type: 'text/plain;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
     a.href = url;
     a.download = 'klipInfo.txt';
     document.body.appendChild(a);
@@ -255,6 +314,8 @@ document.getElementById('processButton').addEventListener('click', function () {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 });
+
+
 
 function formatTrackTitle(value) {
     // Türkçe karakterlerin büyük/küçük dönüşümleri için harita
@@ -286,36 +347,95 @@ function formatTrackTitle(value) {
 
     return value;
 }
-
+/*
 function lookupGenreTags(genre) {
     const entry = etiketlerData.find(item => item.genre.toLowerCase() === genre.toLowerCase());
-    return entry ? entry['merge-tags'] : 'Etiket bulunamadı';
-}
+    const icon = document.getElementById('genreStatusIcon');
 
-function lookupLabelTitle(label) {
+    if (entry && entry['merge-tags']) {
+        icon.classList.add('ready');
+        icon.classList.remove('missing');
+        icon.title = 'Etiket bulundu!';
+        return entry['merge-tags'];
+    } else {
+        icon.classList.add('missing');
+        icon.classList.remove('ready');
+        icon.title = 'Etiket bulunamadı!';
+        return '';
+    }
+}
+*/
+/*function lookupLabelTitle(label) {
+    const labelsData = getLabelsData(); // ✅ Güncel API'den al
     const entry = labelsData.find(item => item.descriptionTitle.toLowerCase() === label.toLowerCase());
-    return entry ? entry.labelTitle : 'Label bulunamadı';
-}
+    const icon = document.getElementById('labelStatusIcon');
 
+    if (entry && entry.labelTitle) {
+        icon.classList.add('ready');
+        icon.classList.remove('missing');
+        icon.title = 'Label bulundu!';
+        return entry.labelTitle;
+    } else {
+        icon.classList.add('missing');
+        icon.classList.remove('ready');
+        icon.title = 'Label bulunamadı!';
+        return '';
+    }
+}*/
+/*
 function searchByLabel(label) {
     const results = labelsData.filter(item => item.labelTitle.toLowerCase().includes(label.toLowerCase()));
-    return results.length > 0 ? results : 'Label bulunamadı';
-}
+    return results.length > 0 ? results : [];
+}*/
 
 /* Bu fonksiyonla ISRC formatlanır ve geçerliliği kontrol edilir*/
+/**
+ * ISRC kodunu formatlar ve geçerliliğini kontrol eder.
+ * Eğer gelen değer string değilse, önce stringe çevirir.
+/**
+ * ISRC kodunu alfanümerik karakterlere indirger, gereksiz boşluk ve farklı biçimdeki tireleri normal tire haline getirir,
+ * ardından standart formata (XX-XXX-XX-XXXXX) çevirir.
+ *
+ * @param {any} value - Girdi olarak gelen ISRC değeri
+ * @returns {string} - Standart formata dönüştürülmüş ISRC veya hata mesajı
+ */
 function formatISRC(value) {
-    // Boşlukları ve "-" işaretlerini sil
-    value = value.replace(/[\s\-]/g, '').toUpperCase();
+    // Gelen değeri stringe çevir
+    value = String(value);
+    
+    // Tüm boşluk karakterlerini kaldır
+    value = value.replace(/\s+/g, '');
+    
+    // " - ", "- " ve " -" gibi varyantları standart "-" haline getir:
+    // Bu, bir veya birden fazla boşluk, tire ve yine boşluk kombinasyonlarını "-" ile değiştirir.
+    value = value.replace(/(\s*-\s*)/g, '-');
 
-    // ISRC'nin doğru formatta olup olmadığını kontrol et
-    var isValid = /^[A-Z]{2}[A-Z0-9]{3}\d{2}\d{5}$/.test(value);
-
-    if (!isValid) {
+    // Sadece alfanümerik karakterleri ve tireleri koru (ISRC için başka karakterlere gerek yok)
+    value = value.replace(/[^A-Z0-9-]/gi, '');
+    
+    // Tamamen büyük harfe çevir
+    value = value.toUpperCase();
+    
+    // Sadece alfanümerik karakterleri elde et (tireleri kaldır)
+    const alphanumOnly = value.replace(/-/g, '');
+    
+    // Alfanümerik karakterlerin sayısı 12 değilse hata döndür
+    if (alphanumOnly.length !== 12) {
         return 'Geçersiz ISRC formatı';
     }
-
-    return value;
+    
+    // Standart ISRC formatına dönüştür: XX-XXX-XX-XXXXX
+    // İlk 2 karakter = ülke kodu, sonraki 3 = kayıt kuruluşu, sonraki 2 = yıl, sonraki 5 = sıra numarası.
+    const country = alphanumOnly.slice(0, 2);
+    const registrant = alphanumOnly.slice(2, 5);
+    const year = alphanumOnly.slice(5, 7);
+    const designation = alphanumOnly.slice(7, 12);
+    const formattedISRC = `${country}${registrant}${year}${designation}`;
+    
+    return formattedISRC;
 }
+
+
 
 /* Bu fonksiyonla sanatçı adları etiket için ayrıştırılır */
 function replaceFeatAndAnd(value) {
@@ -471,23 +591,30 @@ function generateLinks(genre) {
 
     return links;
 }
-
+/*
 function getMergedTags(genre, fallbackGenre) {
-    // İlk olarak genre ile sorgu yap
-    let genreMatch = etiketlerData.find(item => item.genre.toLowerCase() === genre.toLowerCase() && item['merge-tags']);
+    let genreMatch = etiketlerData.find(item =>
+        item.genre.toLowerCase() === genre.toLowerCase() && item['merge-tags']
+    );
 
-    // Eğer genre için bir eşleşme bulunamazsa, fallbackGenre ile tekrar sorgu yap
-    if (!genreMatch && fallbackGenre) {
-        genreMatch = etiketlerData.find(item => item.genre.toLowerCase() === fallbackGenre.toLowerCase() && item['merge-tags']);
+    if ((!genreMatch || !genreMatch['merge-tags']) && fallbackGenre) {
+        genreMatch = etiketlerData.find(item =>
+            item.genre.toLowerCase() === fallbackGenre.toLowerCase() && item['merge-tags']
+        );
     }
 
-    // Sonuçları döndür
     if (genreMatch && genreMatch['merge-tags']) {
-        return genreMatch['merge-tags'];
-    } else {
-        return 'Etiket bulunamadı';
+        return genreMatch['merge-tags']
+            .split(',')
+            .map(tag => tag.trim())
+            .filter(tag => tag && !tag.toLowerCase().startsWith("genre:"))
+            .join(', ');
     }
+
+    return '';
 }
+*/
+
 
 function removeTurkishChars(value) {
     // Türkçe karakterleri İngilizce karşılıklarına dönüştür
@@ -736,6 +863,207 @@ function convertExcelDate(excelDate) {
     return `${day}.${month}.${year}`;
 }
 
+function handleExcelDrop(file) {
+    fileLoaded = true;
+    // Dosyayı fileInput'a manuel olarak ata
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    document.getElementById('fileInput').files = dataTransfer.files;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+
+        const outputText = createOutputText(worksheet);
+        document.getElementById('output').innerText = outputText;
+
+        previewMetadata(worksheet);
+        switchTab('outputTab');
+    };
+    reader.readAsArrayBuffer(file);
+    updateGenreStatusIcon()
+}
+
+function handleTextDrop(file) {
+    const preview = document.getElementById('textPreview');
+
+    if (file.name.endsWith('.txt')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.innerText = e.target.result;
+            switchTab('textPreviewTab');
+        };
+        reader.readAsText(file);
+    } 
+    else if (file.name.endsWith('.docx')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const arrayBuffer = e.target.result;
+
+            mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
+                .then(result => {
+                    preview.innerHTML = result.value;
+                    switchTab('textPreviewTab');
+                })
+                .catch(error => {
+                    console.error('Word dönüştürme hatası:', error);
+                    alert('Word dosyası okunamadı.');
+                });
+        };
+        reader.readAsArrayBuffer(file);
+    }
+    else if (file.name.endsWith('.pdf')) {
+        alert('PDF desteklenmiyor!');
+    }
+}
+
+function updateDescriptionSection() {
+    const outputDiv = document.getElementById('output');
+    let content = outputDiv.innerText;
+
+    const isSingle = document.getElementById('isSingleCheckbox').checked;
+    const is4K = document.getElementById('is4KCheckbox').checked;
+
+    const headerMatch = content.match(/^\s*(.+)\n(.+)\n\nSelamlar,/m);
+    const formattedArtist = headerMatch ? headerMatch[1].trim() : '';
+    const trackTitle = headerMatch ? headerMatch[2].trim() : '';
+
+    // Açıklama içinden label'ı çek
+    const labelMatch = content.match(/,\s(.*?) etiketiyle yayınlanan/);
+    const label = labelMatch ? labelMatch[1].trim() : '';
+
+    let albumTitle = '';
+    const albumMatch = content.match(/etiketiyle yayınlanan "(.*?)" albümünde yer alan/);
+    const singleMatch = content.match(/etiketiyle yayınlanan "(.*?)" isimli tekli çalışması/);
+
+    if (albumMatch) {
+        albumTitle = albumMatch[1].trim();
+    } else if (singleMatch) {
+        albumTitle = singleMatch[1].trim();
+    }
+
+    const possessiveArtist = addPossessiveSuffix(formattedArtist);
+    const newDescription = generateDescription(possessiveArtist, label, albumTitle, trackTitle);
+
+    const descriptionRegex = /.+etiketiyle yayınlanan .*?netd müzik'te\./;
+    content = content.replace(descriptionRegex, newDescription);
+
+    outputDiv.innerText = content;
+}
+
+
+
+function toggleLyricsInfoInOutput() {
+    const outputDiv = document.getElementById('output');
+    const hasLyrics = document.getElementById('hasLyricsCheckbox').checked;
+    const content = outputDiv.innerText;
+
+    const lines = content.split('\n');
+    const fbIndex = lines.findIndex(line => line.includes('*Facebook*'));
+
+    if (fbIndex === -1) return; // Güvenlik: Facebook satırı yoksa işlem yapma
+
+    const trackMatch = content.match(/^\s*(.+)\n(.+)\n\nSelamlar,/m);
+    const trackTitle = trackMatch ? trackMatch[2].trim() : '';
+    const lyricsLine = `"${trackTitle}" şarkı sözleri ile`;
+
+    // Önce varsa daha önce eklenmiş lyricsLine'ı sil
+    const existingIndex = lines.findIndex(line => line.trim() === lyricsLine);
+    if (existingIndex !== -1) {
+        // Eğer bir üst satır da boşsa, onu da temizle
+        if (existingIndex > 0 && lines[existingIndex - 1].trim() === '') {
+            lines.splice(existingIndex - 1, 2); // boşluk + lyrics
+        } else {
+            lines.splice(existingIndex, 1);
+        }
+    }
+
+    // Eğer checkbox işaretliyse yeniden ekle
+    if (hasLyrics) {
+        // Eklenmeden önce 2 satır yukarıya boşluk bırakıyoruz
+        const insertIndex = fbIndex > 1 ? fbIndex - 1 : fbIndex;
+        lines.splice(insertIndex, 0, '', lyricsLine); // boşluk + lyrics
+    }
+
+    outputDiv.innerText = lines.join('\n');
+}
+
+
+function updateTagsInOutput() {
+    const outputDiv = document.getElementById('output');
+    const content = outputDiv.innerText;
+    if (!outputDiv || !content || content.trim() === '') return;
+
+    const fallback = document.getElementById('fallbackGenreSelect')?.value.trim();
+    const selectedGenre = fallback ? fallback : loadedGenre;
+    const genreTags = getFinalGenreTags();
+
+    const lines = content.split('\n');
+
+    // Başlık satırından sanatçı ve parça adını ayıkla
+    const titleLine = lines.find(line => line.includes(" - "));
+    const [artist, trackTitle] = titleLine ? titleLine.split(" - ").map(str => str.trim()) : ['', ''];
+
+    const formattedArtist = formatArtist(artist);
+    const formattedTrackTitle = formatTrackTitle(trackTitle);
+    const artistWithoutTurkishChars = removeTurkishChars(formattedArtist);
+    const trackWithoutTurkishChars = removeTurkishChars(formattedTrackTitle);
+
+    const staticTags = [
+        `${formattedArtist} - ${trackTitle}`,
+        formattedArtist,
+        trackTitle,
+        artistWithoutTurkishChars,
+        trackWithoutTurkishChars,
+        `${artistWithoutTurkishChars} - ${trackWithoutTurkishChars}`
+    ].join(', ');
+
+    const newTagLine = [genreTags, staticTags].filter(Boolean).join(', ');
+
+    // Hashtag'lerin olduğu satırı bul, genellikle etiket satırı onun 2 altındadır
+    const hashtagIndex = lines.findIndex(line => line.trim().startsWith('#'));
+    if (hashtagIndex === -1) return;
+
+    const tagLineIndex = hashtagIndex + 2;
+    if (tagLineIndex < lines.length) {
+        lines[tagLineIndex] = newTagLine;
+    } else {
+        lines.push('');
+        lines.push(newTagLine);
+    }
+
+    outputDiv.innerText = lines.join('\n');
+    outputDiv.setAttribute('data-user-modified', 'false');
+    updateGenreStatusIcon();
+}
+
+
+
+
+
+
+
+
+/*
+function updateGenreIconStatus(mergedTags) {
+    const genreStatusIcon = document.getElementById("genreStatusIcon");
+
+    genreStatusIcon.classList.remove('ready', 'error', 'missing');
+    if (mergedTags && mergedTags.trim() !== '') {
+        genreStatusIcon.classList.add('ready');
+        genreStatusIcon.title = 'Etiket bulundu!';
+    } else {
+        genreStatusIcon.classList.add('error');
+        genreStatusIcon.title = 'Etiket bulunamadı!';
+    }
+}*/
+
+
+
+
 // "Backstage to Metadata" butonunun işlevi
 async function generateExcel() {
     try {
@@ -860,6 +1188,7 @@ async function generateExcel() {
     }
 }
 
+
 function s2ab(s) {
     const buf = new ArrayBuffer(s.length);
     const view = new Uint8Array(buf);
@@ -869,3 +1198,83 @@ function s2ab(s) {
 
 // "Backstage to Metadata" butonuna tıklama olayını dinle
 document.getElementById("backstageButton").addEventListener("click", generateExcel);
+// Sürükle bırak olayları
+document.body.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+});
+
+document.body.addEventListener('drop', function (e) {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+
+    if (!file) return;
+
+    const fileName = file.name.toLowerCase();
+
+    // Excel dosyaları
+    if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls') || fileName.endsWith('.ods')) {
+        handleExcelDrop(file);
+    }
+
+    // Metin veya Word dosyaları
+    else if (fileName.endsWith('.txt') || fileName.endsWith('.docx') || fileName.endsWith('.pdf')) {
+        handleTextDrop(file);
+    }
+
+    else {
+        alert('Desteklenmeyen dosya türü: ' + fileName);
+    }
+});
+document.getElementById('is4KCheckbox').addEventListener('change', updateDescriptionSection);
+document.getElementById('hasLyricsCheckbox').addEventListener('change', toggleLyricsInfoInOutput);
+document.getElementById('output').addEventListener('input', function () {
+    this.setAttribute('data-user-modified', 'true');
+});
+document.getElementById('isSingleCheckbox').addEventListener('change', updateDescriptionSection);
+fallbackGenreSelect.addEventListener('change', () => {
+    updateTagsInOutput();
+    updateGenreStatusIcon();  // ikonları da tazeliyoruz
+});
+function updateGenreStatusIcon() {
+    const genreStatusIcon = document.getElementById("genreStatusIcon");
+
+    // Eğer dosya yüklenmediyse ikon gri
+    if (!fileLoaded) {
+        genreStatusIcon.classList.remove('ready', 'error');
+        genreStatusIcon.classList.add('missing');
+        genreStatusIcon.title = 'Excel dosyası yüklenmedi.';
+        return;
+    }
+
+    // Etiket kontrolü
+    const tags = getFinalGenreTags();
+
+    if (tags && tags.trim() !== '') {
+        genreStatusIcon.classList.remove('missing', 'error');
+        genreStatusIcon.classList.add('ready');
+        genreStatusIcon.title = 'Etiket bulundu!';
+    } else {
+        genreStatusIcon.classList.remove('ready', 'missing');
+        genreStatusIcon.classList.add('error');
+        genreStatusIcon.title = 'Etiket bulunamadı!';
+    }
+}
+function updateIsrcStatusIcon() {
+    const isrcIcon = document.getElementById("isrcStatusIcon");
+    if (!fileLoaded) {
+        isrcIcon.classList.remove('ready', 'error');
+        isrcIcon.classList.add('missing');
+        isrcIcon.title = "Excel dosyası yüklenmedi.";
+        return;
+    }
+    if (!formattedISRCGlobal || formattedISRCGlobal === "Geçersiz ISRC formatı") {
+        isrcIcon.classList.remove('ready', 'missing');
+        isrcIcon.classList.add('error');
+        isrcIcon.title = "ISRC bulunamadı / geçersiz.";
+    } else {
+        isrcIcon.classList.remove('error', 'missing');
+        isrcIcon.classList.add('ready');
+        isrcIcon.title = "ISRC bulundu!";
+    }
+}
