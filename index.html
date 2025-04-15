@@ -7,24 +7,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klip Info Oluştur!</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 👇 Fazla uzun listeyi engelle */
+        datalist option {
+            display: block;
+        }
+
+        /* 👇 Dropdown + input yan yana olsun */
+        .inline-dropdowns {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        /* 👇 Genişlik düzenlemeleri */
+        .dropdown, #labelSearchInput {
+            padding: 6px 8px;
+            font-size: 14px;
+            max-width: 300px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
+    <div class="status-icons">
+        <div class="status-icon" id="apiStatus" title="API bağlantısı kontrol ediliyor">
+            <i class="fa-solid fa-database"></i>
+        </div>
+        <div class="status-icon" id="genreStatusIcon" title="Etiket bilgisi kontrol ediliyor">
+            <i class="fa-solid fa-tag"></i>
+        </div>
+        <div class="status-icon" id="labelStatusIcon" title="Label bilgisi kontrol ediliyor">
+            <i class="fa-solid fa-building"></i>
+        </div>
+        <!-- ISRC bilgisi için ikon -->
+        <div class="status-icon" id="isrcStatusIcon" title="ISRC kontrol ediliyor">
+            <i class="fa-solid fa-compact-disc"></i>
+        </div>
+    </div>
+
     <div class="container">
         <h3>Dosyalarınızı Yükleyin!</h3>
         <div class="file-upload-group">
-            <label for="fileInput" class="custom-file-upload">
-                Metadata Yükle
-            </label>
+            <label for="fileInput" class="custom-file-upload">Metadata Yükle</label>
             <input type="file" id="fileInput" accept=".xlsx, .xls, .ods" style="display: none;" />
-
-            <label for="textFileInput" class="custom-file-upload">
-                Künye Yükle
-            </label>
+            <label for="textFileInput" class="custom-file-upload">Künye Yükle</label>
             <input type="file" id="textFileInput" accept=".txt,.docx" style="display: none;" />
-
-            <button id="backstageButton" class="custom-file-upload">
-                Metadata Oluştur
-            </button>
+            <button id="backstageButton" class="custom-file-upload">Metadata Oluştur</button>
         </div>
 
         <h3>Veriler Hangi Satırda?</h3>
@@ -40,34 +71,18 @@
             <label><input type="checkbox" id="hasLyricsCheckbox"> Sözler Var</label>
         </div>
 
-        <select id="fallbackGenreSelect" class="dropdown">
-            <option value="">-- Seçiniz --</option>
-            <option value="Pop">Pop</option>
-            <option value="Halk Müziği">Halk Müziği</option>
-            <option value="Arabesk">Arabesk</option>
-            <option value="Rap">Rap</option>
-            <option value="Rock">Rock</option>
-            <option value="Alternatif & Rock">Alternatif & Rock</option>
-            <option value="Alternatif">Alternatif</option>
-            <option value="Ankara Havası">Ankara Havası</option>
-            <option value="Oyun Havaları">Oyun Havaları</option>
-            <option value="Roman Havası">Roman Havası</option>
-            <option value="Karadeniz">Karadeniz</option>
-            <option value="Özgün">Özgün</option>
-            <option value="Sufi - İlahi">Sufi - İlahi</option>
-            <option value="Yabancı Şarkılar">Yabancı Şarkılar</option>
-            <option value="Akustik">Akustik</option>
-            <option value="Dance">Dance</option>
-            <option value="Türk Sanat Müziği">Türk Sanat Müziği</option>
-            <option value="Enstrümantal">Enstrümantal</option>
-            <option value="Elektronik">Elektronik</option>
-            <option value="Düet Şarkılar">Düet Şarkılar</option>
-            <option value="Film Müzikleri">Film Müzikleri</option>
-            <option value="Klasik Müzik">Klasik Müzik</option>
-            <option value="Remix">Remix</option>
-            <option value="Slow">Slow</option>
-            <option value="Caz">Caz</option>
-        </select>
+        <!-- ✅ Tür + Yapımcı listesi aynı satırda -->
+<!-- Tür + Yapımcı listesi -->
+        <div class="inline-dropdowns">
+            <select id="fallbackGenreSelect" class="dropdown">
+                <option value="">-- Tür Seçin --</option>
+            </select>
+
+            <div class="custom-autocomplete">
+                <input type="text" id="labelSearchInput" class="dropdown" placeholder="Yapımcı Ara..." autocomplete="off">
+                <ul id="labelSuggestionBox" class="suggestion-box"></ul>
+            </div>
+        </div>
 
         <div class="button-group">
             <button id="additionalButton">Ön İzleme</button>
@@ -75,11 +90,13 @@
             <button class="tab-button" data-tab="tableTab">Tablo Görünümü</button>
             <button class="tab-button" data-tab="textPreviewTab">Künye</button>
             <button id="searchISRCButton">ISRC ile Ara</button>
-            <button id="processButton" class="download-button">İndir!</button>
+            <button id="processButton" class="download-button missing">
+                <i class="fa-solid fa-download"></i> İndir!
+            </button>
         </div>
 
-        <!-- Sekme İçerikleri -->
-         <div id="outputTab" class="tab-content">
+        <!-- Sekmeler -->
+        <div id="outputTab" class="tab-content">
             <h3>Excel Dosyası Önizlemesi</h3>
             <div id="output" class="excel-preview" contenteditable="true"></div>
         </div>
@@ -109,24 +126,25 @@
                             <th>Additional</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Satırlar buraya eklenecek -->
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
 
-         <div id="textPreviewTab" class="tab-content">
+        <div id="textPreviewTab" class="tab-content">
             <h3>Metin Dosyası Önizlemesi</h3>
             <div id="textPreview" class="text-preview" contenteditable="true"></div>
         </div>
     </div>
 
-    <!-- Kütüphaneler ve script dosyaları -->
+    <!-- Kütüphaneler -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
-    <script src="script.js"></script>
+    <!-- JS dosyaları -->
+    <script type="module" src="script.js"></script>
+    <script type="module" src="tagManager.js"></script>
+    <script type="module" src="apiManager.js"></script>
 </body>
 </html>
