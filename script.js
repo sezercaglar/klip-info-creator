@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const apiStatus = document.getElementById('apiStatus');
         apiStatus.classList.add('ready');
         apiStatus.title = 'API bağlantısı başarılı!';
-        console.log('Hazır!');
+        //console.log('Hazır!');
     } else {
         const apiStatus = document.getElementById('apiStatus');
         apiStatus.classList.remove('ready');
         apiStatus.title = 'API verisi alınamadı!';
-        console.warn('API verileri henüz hazır değil.');
+        //console.warn('API verileri henüz hazır değil.');
     }
 });
 
@@ -97,7 +97,7 @@ document.getElementById('textFileInput').addEventListener('change', function (e)
                     switchTab('textPreviewTab');
                 })
                 .catch(function (error) {
-                    console.error('Dosya dönüştürme hatası:', error);
+                    //console.error('Dosya dönüştürme hatası:', error);
                     alert('Word dosyası okunurken bir hata oluştu.');
                 });
         };
@@ -746,7 +746,7 @@ function switchTab(tabId) {
     if (tabContent) {
         tabContent.style.display = 'block';
     } else {
-        console.error(`Tab with ID "${tabId}" not found.`);
+        //console.error(`Tab with ID "${tabId}" not found.`);
     }
 }
 
@@ -909,7 +909,7 @@ function handleTextDrop(file) {
                     switchTab('textPreviewTab');
                 })
                 .catch(error => {
-                    console.error('Word dönüştürme hatası:', error);
+                    //console.error('Word dönüştürme hatası:', error);
                     alert('Word dosyası okunamadı.');
                 });
         };
@@ -1127,7 +1127,7 @@ async function generateExcel() {
 
                 // Zorunlu alanların kontrolü
                 if (!trackRow["Track title"] || !trackRow["Artist"] || !trackRow["ISRC"]) {
-                    console.warn("Skipping invalid track data due to missing required fields.");
+                    //console.warn("Skipping invalid track data due to missing required fields.");
                     return;
                 }
 
