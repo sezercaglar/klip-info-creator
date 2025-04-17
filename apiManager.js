@@ -16,10 +16,10 @@ export async function loadApiData() {
         _labels = data.labels || [];
         _yapimcilar = (data.yapimcilar || []).map(item => item['believe-name']?.trim()).filter(Boolean);
 
-        console.log('✅');
+        //console.log('✅');
     } catch (error) {
         console.error('❌', error);
-        throw error;
+        //throw error;
     }
 }
 
