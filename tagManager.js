@@ -17,7 +17,7 @@ function populateGenreDropdown() {
         genreDropdown.appendChild(option);
     });
 
-    //console.log('🎵 fallbackGenreSelect listesi dolduruldu:', genres);
+    ////console.log('🎵 fallbackGenreSelect listesi dolduruldu:', genres);
 }
 
 
@@ -29,7 +29,7 @@ function initLabelSearch() {
         .map(label => typeof label === 'object' ? label['believe-name']?.toString().trim() : label)
         .filter(Boolean);
 
-    //console.log('🏢 Yapımcı listesi:', labelData);
+    ////console.log('🏢 Yapımcı listesi:', labelData);
 
     setupLabelSearch('labelSearchInput', 'labelSuggestionBox', labelData);
 }
@@ -146,9 +146,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         initLabelSearch();
         document.getElementById('apiStatus').classList.add('ready');
         document.getElementById('apiStatus').title = 'API bağlantısı başarılı!';
-        //console.log('🎉 API verileri yüklendi.');
+        ////console.log('🎉 API verileri yüklendi.');
     } catch (err) {
-        //console.error('❌ API verileri yüklenemedi:', err);
+        ////console.error('❌ API verileri yüklenemedi:', err);
         document.getElementById('apiStatus').classList.remove('ready');
         document.getElementById('apiStatus').title = 'API bağlantısı başarısız!';
     }
@@ -201,7 +201,7 @@ export function getFinalGenreTags() {
     const genreToUse = selectedGenre || currentExcelGenre;
 
     if (!genreToUse) {
-        console.warn('🎯 Hiçbir genre seçilmedi.');
+        //console.warn('🎯 Hiçbir genre seçilmedi.');
         return '';
     }
 
@@ -219,10 +219,10 @@ export function getFinalGenreTags() {
             .map(tag => tag.trim())
             .filter(tag => tag && !tag.toLowerCase().startsWith("genre:"));
 
-        console.log(`✅ Etiket bulundu [${genreToUse}]:`, cleanedTags);
+        //console.log(`✅ Etiket bulundu [${genreToUse}]:`, cleanedTags);
         return cleanedTags.join(', ');
     } else {
-        console.warn(`🚫 Etiket bulunamadı [${genreToUse}]`);
+        //console.warn(`🚫 Etiket bulunamadı [${genreToUse}]`);
         return '';
     }
 }
@@ -249,7 +249,7 @@ export function getFinalLabelTitle() {
         item.descriptionTitle?.toLowerCase() === currentExcelLabel
     );
     if (autoMatch && autoMatch.labelTitle) {
-        console.log(`✅ Otomatik eşleşme bulundu [${currentExcelLabel}]:`, autoMatch.labelTitle);
+        //console.log(`✅ Otomatik eşleşme bulundu [${currentExcelLabel}]:`, autoMatch.labelTitle);
         return autoMatch.labelTitle;
     }
     // Eğer otomatik eşleşme bulunamadı, kullanıcı girişi (manuel) kontrolü yapılacak
@@ -262,10 +262,10 @@ export function getFinalLabelTitle() {
             (typeof item === 'object' ? item['believe-name']?.toLowerCase() : String(item).toLowerCase()) === userInput.toLowerCase()
         );
         if (userMatch) {
-            console.log(`✅ Manuel seçim eşleşti:`, userInput);
+            //console.log(`✅ Manuel seçim eşleşti:`, userInput);
             return typeof userMatch === 'object' ? userMatch['believe-name'] : userMatch;
         } else {
-            console.warn("🚫 Kullanıcı seçimi API'de bulunamadı:", userInput);
+            //console.warn("🚫 Kullanıcı seçimi API'de bulunamadı:", userInput);
             return ''; // Bu durumda hiçbir label döndürülmez
         }
     }
