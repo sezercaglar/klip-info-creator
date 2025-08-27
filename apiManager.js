@@ -1,4 +1,4 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbwkMVhA2OfLmscXrz7ITqSC14_8Ty6KTwis8lmIYsSJFlCKEDThd4EHxt2g7QdUQcfj/exec';
+const API_URL = 'https://divine-river-2cc3.szercglar.workers.dev/';
 
 let _etiketler = [];
 let _tags = [];
@@ -39,3 +39,4 @@ export function getLabelsData() {
 export function getYapimcilarList() {
     return _yapimcilar;
 }
+
