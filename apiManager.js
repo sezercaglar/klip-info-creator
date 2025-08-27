@@ -5,7 +5,7 @@ let _tags = [];
 let _labels = [];
 let _yapimcilar = [];
 
-export async function loadApiData() {
+/*export async function loadApiData() {
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
@@ -21,6 +21,30 @@ export async function loadApiData() {
         console.error('❌', error);
         //throw error;
     }
+}*/
+
+export async function loadApiData() {
+  try {
+    const res = await fetch(API_URL, { method: 'GET', cache: 'no-store' });
+    const ct = (res.headers.get('content-type') || '').toLowerCase();
+    const text = await res.text();
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status} — ${text.slice(0,160)}`);
+    }
+    if (!ct.includes('application/json')) {
+      throw new Error(`Beklenmeyen içerik türü: ${ct || 'unknown'} — ${text.slice(0,160)}`);
+    }
+
+    const data = JSON.parse(text);
+    if (data?.ok === false) throw new Error('Yetkisiz erişim');
+    // ... mevcut atamalar ...
+    return true;
+  } catch (err) {
+    console.error('loadApiData:', err);
+    alert('Veri yüklenemedi. Lütfen sayfayı yenileyip tekrar deneyin.');
+    return false;
+  }
 }
 
 // --- Getter fonksiyonları ---
@@ -39,4 +63,5 @@ export function getLabelsData() {
 export function getYapimcilarList() {
     return _yapimcilar;
 }
+
 
