@@ -1,6 +1,7 @@
 // Google Apps Script URL'nizi buraya ekleyin
 import { getEtiketlerData, getYapimcilarList, getLabelsData } from './apiManager.js';
 import { setExcelGenre, getFinalGenreTags, hasOriginalTags, hasFallbackTags, setExcelLabel, getFinalLabelTitle, updateLabelInOutput, updateLabelStatusIcon } from './tagManager.js';
+import { MAX_PREVIEW_ROWS } from './config.js';
 
 let fallbackGenre = '';
 let rowIndex = 2;
@@ -687,8 +688,16 @@ function previewMetadata(worksheet) {
 
     // Çalışma sayfasının aralığını al
     let range = XLSX.utils.decode_range(worksheet['!ref']);
-    let rowCount = range.e.r + 1; // Satır sayısını hesapla
-
+    let rowCount = range.e.r + 1;          // toplam satır (1. satır başlık)
+    const dataRows = rowCount - 1;         // veri satırı sayısı
+    const limit = Number.isFinite(MAX_PREVIEW_ROWS) && MAX_PREVIEW_ROWS > 0 ? MAX_PREVIEW_ROWS : 2000;
+    const lastRow = 1 + Math.min(dataRows, limit); // son işlenecek satır numarası
+    
+    if (dataRows > limit) {
+      console.warn(`Dosyada ${dataRows} satır var; yalnızca ilk ${limit} satır önizlenecek.`);
+      alert(`Uyarı: Dosyada ${dataRows} satır var. Performans için yalnızca ilk ${limit} satır önizlenecek.`);
+    }
+    
     for (let row = 2; row <= rowCount; row++) {
         let trackTitle = worksheet[`A${row}`] ? worksheet[`A${row}`].v : '';
         let artist = worksheet[`B${row}`] ? worksheet[`B${row}`].v : '';
