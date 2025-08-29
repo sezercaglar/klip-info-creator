@@ -110,7 +110,9 @@ document.getElementById('textFileInput').addEventListener('change', function (e)
 });
 
 document.getElementById('fileInput').addEventListener('change', function (e) {
-    fileLoaded = true;
+  if (!e.target.files || e.target.files.length === 0) return;
+  resetOnNewExcel();   // ✅ yeni dosya → önceki label/genre temizlenir
+  fileLoaded = true;
 });
 
 // Ortak işlev: Çıktı oluşturma işlemi
@@ -873,6 +875,7 @@ function convertExcelDate(excelDate) {
 }
 
 function handleExcelDrop(file) {
+    resetOnNewExcel();
     fileLoaded = true;
     // Dosyayı fileInput'a manuel olarak ata
     const dataTransfer = new DataTransfer();
@@ -1287,3 +1290,20 @@ function updateIsrcStatusIcon() {
         isrcIcon.title = "ISRC bulundu!";
     }
 }
+
+function resetOnNewExcel() {
+  // LABEL: manuel seçim/input’u temizle + bellekteki excel label’ını sıfırla
+  const labelInput = document.getElementById('labelSearchInput');
+  if (labelInput) labelInput.value = '';
+  setExcelLabel('');               // tagManager export’u
+  updateLabelInOutput(true);       // boş değeri uygula
+  updateLabelStatusIcon();         // ikonları güncelle
+
+  // GENRE/TAGS: fallback seçimlerini sıfırla + ikon/metin güncelle
+  const genreSelect = document.getElementById('fallbackGenreSelect');
+  if (genreSelect) genreSelect.selectedIndex = 0; // "-- Tür Seçin --"
+  setExcelGenre('');               // excel kaynaklı genre’ı sıfırla
+  updateTagsInOutput();            // çıktıdaki etiket satırını yenile
+  updateGenreStatusIcon();         // genre ikon durumunu yenile
+}
+
