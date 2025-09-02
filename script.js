@@ -15,6 +15,13 @@ const labelStatusIcon = document.getElementById("labelStatusIcon");
 
 // Sayfa yüklendiğinde API verilerini çek ve interface ayarlarını yap
 document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('api-ready', () => {
+      if (fileLoaded) {
+        updateTagsInOutput();   // bu zaten genre ikonunu da güncelliyor
+        updateIsrcStatusIcon(); // (opsiyonel)
+      }
+    });
+
     document.getElementById('labelSearchInput').addEventListener('input', () => {
     updateLabelInOutput(true);
     updateLabelStatusIcon(); // İkonu da kontrol et
@@ -273,7 +280,9 @@ document.getElementById('additionalButton').addEventListener('click', function (
         const outputText = createOutputText(worksheet);
         document.getElementById('output').innerText = outputText;
         document.getElementById('output').setAttribute('data-user-modified', 'false');
-
+        updateTagsInOutput();
+        updateIsrcStatusIcon();
+        
         previewMetadata(worksheet);
         switchTab('outputTab');
     };
@@ -884,19 +893,24 @@ function handleExcelDrop(file) {
 
     const reader = new FileReader();
     reader.onload = function (e) {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const firstSheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[firstSheetName];
-
-        const outputText = createOutputText(worksheet);
-        document.getElementById('output').innerText = outputText;
-
-        previewMetadata(worksheet);
-        switchTab('outputTab');
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+    
+      const outputText = createOutputText(worksheet);  // setExcelGenre burada yapılır
+      document.getElementById('output').innerText = outputText;
+    
+      // 👇 tag satırını şimdi üret (genreTags + statikler), sonra ikon
+      updateTagsInOutput();
+      updateGenreStatusIcon();
+    
+      previewMetadata(worksheet);
+      switchTab('outputTab');
     };
+    
     reader.readAsArrayBuffer(file);
-    updateGenreStatusIcon()
+
 }
 
 function handleTextDrop(file) {
@@ -1249,29 +1263,38 @@ fallbackGenreSelect.addEventListener('change', () => {
     updateGenreStatusIcon();  // ikonları da tazeliyoruz
 });
 function updateGenreStatusIcon() {
-    const genreStatusIcon = document.getElementById("genreStatusIcon");
+  const icon = document.getElementById("genreStatusIcon");
 
-    // Eğer dosya yüklenmediyse ikon gri
-    if (!fileLoaded) {
-        genreStatusIcon.classList.remove('ready', 'error');
-        genreStatusIcon.classList.add('missing');
-        genreStatusIcon.title = 'Excel dosyası yüklenmedi.';
-        return;
-    }
+  // 1) Dosya yoksa gri
+  if (!fileLoaded) {
+    icon.classList.remove('ready', 'error');
+    icon.classList.add('missing');
+    icon.title = 'Excel dosyası yüklenmedi.';
+    return;
+  }
 
-    // Etiket kontrolü
-    const tags = getFinalGenreTags();
+  // 2) API verisi gelmediyse -> hata demeyelim, gri kalsın
+  const etiketler = (typeof getEtiketlerData === 'function') ? (getEtiketlerData() || []) : [];
+  if (!Array.isArray(etiketler) || etiketler.length === 0) {
+    icon.classList.remove('ready', 'error');
+    icon.classList.add('missing');
+    icon.title = 'API verisi yükleniyor...';
+    return;
+  }
 
-    if (tags && tags.trim() !== '') {
-        genreStatusIcon.classList.remove('missing', 'error');
-        genreStatusIcon.classList.add('ready');
-        genreStatusIcon.title = 'Etiket bulundu!';
-    } else {
-        genreStatusIcon.classList.remove('ready', 'missing');
-        genreStatusIcon.classList.add('error');
-        genreStatusIcon.title = 'Etiket bulunamadı!';
-    }
+  // 3) Artık final etiketleri hesapla
+  const tags = getFinalGenreTags();
+  if (tags && tags.trim() !== '') {
+    icon.classList.remove('missing', 'error');
+    icon.classList.add('ready');
+    icon.title = 'Etiket bulundu!';
+  } else {
+    icon.classList.remove('ready', 'missing');
+    icon.classList.add('error');
+    icon.title = 'Etiket bulunamadı!';
+  }
 }
+
 function updateIsrcStatusIcon() {
     const isrcIcon = document.getElementById("isrcStatusIcon");
     if (!fileLoaded) {
