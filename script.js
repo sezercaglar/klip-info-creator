@@ -709,7 +709,7 @@ function previewMetadata(worksheet) {
       alert(`Uyarı: Dosyada ${dataRows} satır var. Performans için yalnızca ilk ${limit} satır önizlenecek.`);
     }
     
-    for (let row = 2; row <= rowCount; row++) {
+    for (let row = 2; row <= lastRow; row++) {
         let trackTitle = worksheet[`A${row}`] ? worksheet[`A${row}`].v : '';
         let artist = worksheet[`B${row}`] ? worksheet[`B${row}`].v : '';
         let albumTitle = worksheet[`C${row}`] ? worksheet[`C${row}`].v : '';
