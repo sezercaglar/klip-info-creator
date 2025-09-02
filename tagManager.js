@@ -146,6 +146,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         initLabelSearch();
         document.getElementById('apiStatus').classList.add('ready');
         document.getElementById('apiStatus').title = 'API bağlantısı başarılı!';
+        document.dispatchEvent(new CustomEvent('api-ready'));
         ////console.log('🎉 API verileri yüklendi.');
     } catch (err) {
         ////console.error('❌ API verileri yüklenemedi:', err);
@@ -323,4 +324,5 @@ export function updateLabelStatusIcon() {
     downloadBtn.classList.remove('ready', 'missing', 'error');
     downloadBtn.classList.add((!genreValid || !labelValid) ? 'error' : 'ready');
 }
+
 
