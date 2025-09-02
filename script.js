@@ -706,7 +706,7 @@ function previewMetadata(worksheet) {
     
     if (dataRows > limit) {
       console.warn(`Dosyada ${dataRows} satır var; yalnızca ilk ${limit} satır önizlenecek.`);
-      alert(`Uyarı: Dosyada ${dataRows} satır var. Performans için yalnızca ilk ${limit} satır önizlenecek.`);
+      //alert(`Uyarı: Dosyada ${dataRows} satır var. Performans için yalnızca ilk ${limit} satır önizlenecek.`);
     }
     
     for (let row = 2; row <= lastRow; row++) {
