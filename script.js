@@ -13,33 +13,50 @@ const fallbackGenreSelect = document.getElementById('fallbackGenreSelect');
 const genreStatusIcon = document.getElementById("genreStatusIcon");
 const labelStatusIcon = document.getElementById("labelStatusIcon");
 
+const Current = { artist: '', track: '' };
+
+function setCurrentFromSheet(artistRaw, trackRaw) {
+  Current.artist = String(artistRaw || '');
+  Current.track  = String(trackRaw  || '');
+}
+
+// Artist/Track’ten statik etiket parçalarını üretir (tek yerde tanım)
+function buildArtistTrackTags(artistRaw, trackRaw) {
+  const formattedArtist     = formatArtist(artistRaw || '');
+  const formattedTrackTitle = formatTrackTitle(trackRaw || '');
+  const artistNoTr          = removeTurkishChars(formattedArtist);
+  const trackNoTr           = removeTurkishChars(formattedTrackTitle);
+
+  return [
+    `${formattedArtist} - ${formattedTrackTitle}`,
+    formattedArtist,
+    formattedTrackTitle,
+    artistNoTr,
+    trackNoTr,
+    `${artistNoTr} - ${trackNoTr}`
+  ].join(', ');
+}
+
+// --- sink-cleanup yardımcıları (Genre: kırp + tekilleştir)
 function normalizeTurkishI(s) {
   return String(s || '').normalize('NFC').replace(/i̇/g, 'i').replace(/İ/g, 'İ');
 }
-
 function tokenizeTags(str) {
-  return String(str || '')
-    .split(',')
-    .map(t => normalizeTurkishI(t).trim())
-    .filter(Boolean);
+  return String(str || '').split(',').map(t => normalizeTurkishI(t).trim()).filter(Boolean);
 }
-
 function stripGenrePrefixTokens(tokens) {
   return tokens.filter(t => !/^genre\s*:/i.test(t));
 }
-
 function dedupeCaseInsensitive(tokens) {
   const seen = new Set();
   const out = [];
   for (const t of tokens) {
     const key = normalizeTurkishI(t).toLowerCase();
-    if (!seen.has(key)) {
-      seen.add(key);
-      out.push(t);
-    }
+    if (!seen.has(key)) { seen.add(key); out.push(t); }
   }
   return out;
 }
+
 
 
 // Sayfa yüklendiğinde API verilerini çek ve interface ayarlarını yap
@@ -157,6 +174,8 @@ function createOutputText(worksheet) {
 
     const trackTitle = worksheet[`A${row}`]?.v || '';
     const artist = worksheet[`B${row}`]?.v || '';
+    setCurrentFromSheet(artist, trackTitle);
+    const staticTags = buildArtistTrackTags(artist, trackTitle);
     const albumTitle = worksheet[`C${row}`]?.v || '';
     const label = worksheet[`D${row}`]?.v || '';
     setExcelLabel(label);
@@ -1048,59 +1067,40 @@ function toggleLyricsInfoInOutput() {
 
 
 function updateTagsInOutput() {
-    const outputDiv = document.getElementById('output');
-    const content = outputDiv.innerText;
-    if (!outputDiv || !content || content.trim() === '') return;
+  const outputDiv = document.getElementById('output');
+  const content = outputDiv?.innerText || '';
+  if (!outputDiv || !content.trim()) return;
 
-    const fallback = document.getElementById('fallbackGenreSelect')?.value.trim();
-    const selectedGenre = fallback ? fallback : loadedGenre;
-    const genreTags = getFinalGenreTags();
+  // 1) Genre etiketleri (tagManager.js’den gelir)
+  const genreTags = getFinalGenreTags();
 
-    const lines = content.split('\n');
+  // 2) Artist/Track’i DOĞRUDAN STATE’ten al
+  const staticTags = buildArtistTrackTags(Current.artist, Current.track);
 
-    // Başlık satırından sanatçı ve parça adını ayıkla
-    const titleLine = lines.find(line => line.includes(" - "));
-    const [artist, trackTitle] = titleLine ? titleLine.split(" - ").map(str => str.trim()) : ['', ''];
+  // 3) Birleştir → sink-cleanup
+  const newTagLine = [genreTags, staticTags].filter(Boolean).join(', ');
+  const cleanedTagLine = dedupeCaseInsensitive(
+    stripGenrePrefixTokens(
+      tokenizeTags(newTagLine)
+    )
+  ).join(', ');
 
-    const formattedArtist = formatArtist(artist);
-    const formattedTrackTitle = formatTrackTitle(trackTitle);
-    const artistWithoutTurkishChars = removeTurkishChars(formattedArtist);
-    const trackWithoutTurkishChars = removeTurkishChars(formattedTrackTitle);
+  // 4) Etiket satırını (# satırının 2 altı) temiz haliyle yaz
+  const lines = content.split('\n');
+  const hashtagIndex = lines.findIndex(line => line.trim().startsWith('#'));
+  if (hashtagIndex === -1) return;
 
-    const staticTags = [
-        `${formattedArtist} - ${trackTitle}`,
-        formattedArtist,
-        trackTitle,
-        artistWithoutTurkishChars,
-        trackWithoutTurkishChars,
-        `${artistWithoutTurkishChars} - ${trackWithoutTurkishChars}`
-    ].join(', ');
+  const tagLineIndex = hashtagIndex + 2;
+  if (tagLineIndex < lines.length) {
+    lines[tagLineIndex] = cleanedTagLine;
+  } else {
+    lines.push('');
+    lines.push(cleanedTagLine);
+  }
 
-    const newTagLine = [genreTags, staticTags].filter(Boolean).join(', ');
-
-    // --- SİNK TEMİZLİĞİ (PROD) ---
-    // 1) tokenize -> 2) "Genre:" ile başlayanları at -> 3) küçük/büyük/aksan farklarına rağmen tekilleştir
-    const cleanedTagLine = dedupeCaseInsensitive(
-        stripGenrePrefixTokens(
-            tokenizeTags(newTagLine)
-        )
-    ).join(', ');
-
-    // Hashtag'lerin olduğu satırı bul, genellikle etiket satırı onun 2 altındadır
-    const hashtagIndex = lines.findIndex(line => line.trim().startsWith('#'));
-    if (hashtagIndex === -1) return;
-
-    const tagLineIndex = hashtagIndex + 2;
-    if (tagLineIndex < lines.length) {
-        lines[tagLineIndex] = cleanedTagLine;
-    } else {
-        lines.push('');
-        lines.push(cleanedTagLine);
-    }
-
-    outputDiv.innerText = lines.join('\n');
-    outputDiv.setAttribute('data-user-modified', 'false');
-    updateGenreStatusIcon();
+  outputDiv.innerText = lines.join('\n');
+  outputDiv.setAttribute('data-user-modified', 'false');
+  updateGenreStatusIcon();
 }
 
 /*
