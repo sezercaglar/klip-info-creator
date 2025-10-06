@@ -13,6 +13,35 @@ const fallbackGenreSelect = document.getElementById('fallbackGenreSelect');
 const genreStatusIcon = document.getElementById("genreStatusIcon");
 const labelStatusIcon = document.getElementById("labelStatusIcon");
 
+function normalizeTurkishI(s) {
+  return String(s || '').normalize('NFC').replace(/i̇/g, 'i').replace(/İ/g, 'İ');
+}
+
+function tokenizeTags(str) {
+  return String(str || '')
+    .split(',')
+    .map(t => normalizeTurkishI(t).trim())
+    .filter(Boolean);
+}
+
+function stripGenrePrefixTokens(tokens) {
+  return tokens.filter(t => !/^genre\s*:/i.test(t));
+}
+
+function dedupeCaseInsensitive(tokens) {
+  const seen = new Set();
+  const out = [];
+  for (const t of tokens) {
+    const key = normalizeTurkishI(t).toLowerCase();
+    if (!seen.has(key)) {
+      seen.add(key);
+      out.push(t);
+    }
+  }
+  return out;
+}
+
+
 // Sayfa yüklendiğinde API verilerini çek ve interface ayarlarını yap
 document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('api-ready', () => {
@@ -1049,29 +1078,30 @@ function updateTagsInOutput() {
 
     const newTagLine = [genreTags, staticTags].filter(Boolean).join(', ');
 
+    // --- SİNK TEMİZLİĞİ (PROD) ---
+    // 1) tokenize -> 2) "Genre:" ile başlayanları at -> 3) küçük/büyük/aksan farklarına rağmen tekilleştir
+    const cleanedTagLine = dedupeCaseInsensitive(
+        stripGenrePrefixTokens(
+            tokenizeTags(newTagLine)
+        )
+    ).join(', ');
+
     // Hashtag'lerin olduğu satırı bul, genellikle etiket satırı onun 2 altındadır
     const hashtagIndex = lines.findIndex(line => line.trim().startsWith('#'));
     if (hashtagIndex === -1) return;
 
     const tagLineIndex = hashtagIndex + 2;
     if (tagLineIndex < lines.length) {
-        lines[tagLineIndex] = newTagLine;
+        lines[tagLineIndex] = cleanedTagLine;
     } else {
         lines.push('');
-        lines.push(newTagLine);
+        lines.push(cleanedTagLine);
     }
 
     outputDiv.innerText = lines.join('\n');
     outputDiv.setAttribute('data-user-modified', 'false');
     updateGenreStatusIcon();
 }
-
-
-
-
-
-
-
 
 /*
 function updateGenreIconStatus(mergedTags) {
